@@ -21,7 +21,7 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.post("/house_address")
+@app.post("/api/house_address")
 async def house_address(address: Address) -> dict[str, str] | dict:
     dict_address = address.as_dict()
     if address and check_address(dict_address):
