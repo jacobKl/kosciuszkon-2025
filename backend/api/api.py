@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from utils.osm import geocode_address, create_bbox, query_buildings, osm_to_geojson, check_address, filter_buildings, calculate_average_centroid, find_main_and_n_nearest_without_housenumber, Address
+from utils.osm import geocode_address, create_bbox, query_buildings, osm_to_geojson, check_address, filter_buildings, calculate_average_centroid, add_bbox_to_properties, find_main_and_n_nearest_without_housenumber, Address
 from api.calculator_api import router as calculator_router
 
 app = FastAPI()
@@ -42,6 +42,7 @@ async def house_address(address: Address) -> dict[str, str] | dict:
             "lat": average_centroid[0], "lon": average_centroid[1]}
         output['properties']['address'] = str(address)
         output['properties']['garages_found'] = len(output['features']) - 1
+        add_bbox_to_properties(output)
         return output
     else:
         raise HTTPException(status_code=400, detail="No address provided")
