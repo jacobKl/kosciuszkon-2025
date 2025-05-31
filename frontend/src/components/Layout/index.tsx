@@ -10,7 +10,9 @@ const Layout = ({ children }: { children?: ReactNode }) => {
       {/* <Loader /> */}
       <Header />
       <main className="flex flex-col flex-1 w-full h-[calc(100vh-60px)] justify-center items-center">
-        {children}
+        <div className="container">
+          {children}
+        </div>
       </main>
     </>
   );
