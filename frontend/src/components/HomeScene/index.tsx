@@ -2,6 +2,8 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { useEffect } from "react";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
+import { useAddressQuery } from "../../queries/useAddressQuery";
+import { useAppContext } from "../../context/AppContextProvider";
 
 function CameraLookAtCenter() {
   const { camera } = useThree();
@@ -12,6 +14,10 @@ function CameraLookAtCenter() {
 }
 
 const HomeScene = () => {
+  const { formState } = useAppContext();
+
+  const { data } = useAddressQuery(formState);
+  console.log(data);
   const home = {
     type: "Feature",
     properties: {

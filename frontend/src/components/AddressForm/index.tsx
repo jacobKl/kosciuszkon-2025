@@ -44,11 +44,11 @@ const AddressForm = () => {
 
           <Input
             label="Kod pocztowy"
-            register={register("postcode", {
+            register={register("postalcode", {
               required: "To pole jest wymagane",
             })}
-            error={errors?.postcode?.message}
-            name="postcode"
+            error={errors?.postalcode?.message}
+            name="postalcode"
           />
 
           <Input

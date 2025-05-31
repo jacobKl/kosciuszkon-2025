@@ -5,6 +5,7 @@ from utils.osm import geocode_address, create_bbox, query_buildings, osm_to_geoj
 app = FastAPI()
 origins = [
     'http://localhost',
+    'http://localhost:8081',
     'localhost'
 ]
 app.add_middleware(
