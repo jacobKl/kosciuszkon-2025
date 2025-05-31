@@ -49,10 +49,10 @@ def add_bbox_to_properties(feature_collection):
 
         # Cztery wierzchołki bounding boxa w formacie [[lat, lon], ...]
         corners = [
-            [miny, minx],  # bottom-left
-            [miny, maxx],  # bottom-right
-            [maxy, maxx],  # top-right
-            [maxy, minx]   # top-left
+            [minx, miny],  # bottom-left
+            [minx, maxy],  # bottom-right
+            [maxx, maxy],  # top-right
+            [maxx, miny]   # top-left
         ]
 
         feature.setdefault("properties", {})["bbox"] = corners
