@@ -9,7 +9,7 @@ const Card = ({ children, title, full = false }: { children: ReactNode; title?: 
           <h2>{title}</h2>
         </div>
       )}
-      <div className="p-6 h-full flex-grow">{children}</div>
+      <div className="p-6 h-full">{children}</div>
     </div>
   );
 };

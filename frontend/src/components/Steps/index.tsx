@@ -7,6 +7,7 @@ import {
 } from "../../context/AppContextProvider";
 import AddressForm from "../AddressForm";
 import clsx from "clsx";
+import RoofForm from "../RoofForm";
 import DetailedForm from "../DetailedForm";
 
 const Steps = () => {
@@ -23,6 +24,8 @@ const Steps = () => {
       case 1:
         return <AddressForm />;
       case 2:
+        return <RoofForm />;
+      case 3: 
         return <DetailedForm />;
       default:
         return null;
@@ -62,7 +65,7 @@ const Steps = () => {
           animate="animate"
           exit="exit"
           transition={{ duration: 0.3 }}
-          className="mb-6 w-full h-full flex-1 flex"
+          className="mb-6"
         >
           <StepContent />
         </motion.div>

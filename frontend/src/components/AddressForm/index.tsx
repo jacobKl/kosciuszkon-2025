@@ -61,7 +61,7 @@ const AddressForm = () => {
         />
 
         <Input
-          label="Liczba garażów"
+          label="Liczba garaży"
           register={register("external_garage_count", {
             required: "To pole jest wymagane",
           })}
