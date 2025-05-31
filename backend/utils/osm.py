@@ -45,15 +45,10 @@ def add_bbox_to_properties(feature_collection):
             continue
 
         polygon = Polygon(coordinates[0])
-        minx, miny, maxx, maxy = polygon.bounds
+        rotated_bbox = polygon.minimum_rotated_rectangle
 
-        # Cztery wierzchołki bounding boxa w formacie [[lat, lon], ...]
-        corners = [
-            [minx, miny],  # bottom-left
-            [minx, maxy],  # bottom-right
-            [maxx, maxy],  # top-right
-            [maxx, miny]   # top-left
-        ]
+        coords = list(rotated_bbox.exterior.coords)[:-1]
+        corners = [[x, y] for x, y in coords]
 
         feature.setdefault("properties", {})["bbox"] = corners
 
