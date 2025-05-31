@@ -74,7 +74,7 @@ class Calculator:
             current_year += 1
             savings_sum += self.savings(current_year)
 
-        return savings_sum
+        return savings_sum - self.panel_installation_cost
 
     def to_result_dict(self, year):
         current_year = int(datetime.now().year)
