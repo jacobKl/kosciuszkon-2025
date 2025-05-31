@@ -2,10 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-@theme {
+@layer base {
+  :root {
     --color-primary: #4C9F70;
     --color-secondary: #496F5D;
     --color-dark: #49516F;
     --color-accent: #6279B8;
     --color-accent-2: #8EA4D2;
+  }
+}
+
+.button-primary {
+    @apply px-4 py-2 bg-primary rounded text-white cursor-pointer hover:shadow transition-all;
+}
+
+.button-secondary {
+    @apply px-4 py-2 bg-gray-100 rounded text-gray-500 cursor-pointer hover:shadow transition-all;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+main {
+  min-height: calc(100vh - 56px);
+}
+
+.ribbons {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+
+body {
+  overflow-x: hidden;
 }

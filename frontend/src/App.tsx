@@ -1,9 +1,10 @@
 import Layout from "./components/Layout"
+import Steps from "./components/Steps"
 
 function App() {
   return (
     <Layout>
-      <div>kościuszkon</div>
+      <Steps></Steps>
     </Layout>
   )
 }
