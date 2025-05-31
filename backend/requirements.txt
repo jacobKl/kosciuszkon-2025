@@ -1,3 +1,7 @@
 fastapi
 pydantic
 uvicorn
+requests
+pydantic
+shapely
+geopy
