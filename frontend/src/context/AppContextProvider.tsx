@@ -32,7 +32,7 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
     number: "",
     postalcode: "",
     city: "",
-    external_garage_count: ""
+    external_garage_count: "",
   });
 
   return (

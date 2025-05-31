@@ -62,7 +62,7 @@ const Steps = () => {
           animate="animate"
           exit="exit"
           transition={{ duration: 0.3 }}
-          className="mb-6 flex-auto"
+          className="mb-6 w-full h-full flex-1 flex"
         >
           <StepContent />
         </motion.div>
