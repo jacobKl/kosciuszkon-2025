@@ -5,7 +5,7 @@ const Ribbons = () => {
     hidden: { x: fromLeft ? -700 : 700, delay: 2 + Math.random() * 5 * 0.1 },
     visible: {
       x: 0,
-      transition: { type: "spring", stiffness: 120, damping: 14 },
+      transition: { type: "spring", stiffness: 120, damping: 14, delay: 2 },
     },
   });
 

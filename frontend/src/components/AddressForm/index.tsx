@@ -1,8 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-import Input from "../Input";
 import { useAppContext, type AppContextType, type FormState } from "../../context/AppContextProvider";
+
+import Input from "../Input";
+import Card from "../Card";
 
 const AddressForm = () => {
   const {
@@ -19,15 +21,25 @@ const AddressForm = () => {
   }
 
   return (
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 min-w-[500px]">
+      <Card title="Dane teleadresowe">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 min-w-[500px]">
           <Input
-            label="Adres"
-            register={register("address", {
+            label="Ulica"
+            register={register("street", {
               required: "To pole jest wymagane",
             })}
-            error={errors?.address?.message}
-            name="address"
+            error={errors?.street?.message}
+            name="street"
             helper="Potrzebujemy twojego adresu, żeby uzyskać wymiary dachu."
+          />
+
+          <Input
+            label="Numer domu"
+            register={register("number", {
+              required: "To pole jest wymagane",
+            })}
+            error={errors?.number?.message}
+            name="number"
           />
 
           <Input
@@ -52,6 +64,7 @@ const AddressForm = () => {
           <input type="submit" value="Dalej" className="button-primary" />
         </div>
       </form>
+      </Card>
   );
 };
 

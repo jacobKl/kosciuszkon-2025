@@ -1,7 +1,8 @@
 import React, { useState, type ReactNode, createContext, type Dispatch, type SetStateAction, useContext } from "react";
 
 export type FormState = {
-  address: string;
+  street: string;
+  number: string;
   postcode: string;
   city: string;
 };
@@ -19,7 +20,8 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const [step, setStep] = useState(1);
   const [formState, setFormState] = useState<FormState>({
-    address: "",
+    street: "",
+    number: "",
     postcode: "",
     city: "",
   });
