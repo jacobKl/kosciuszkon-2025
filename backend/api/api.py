@@ -2,6 +2,7 @@ import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from utils.osm import geocode_address, create_bbox, query_buildings, osm_to_geojson, check_address, filter_buildings, calculate_average_centroid, add_bbox_to_properties, find_main_and_n_nearest_without_housenumber, Address
+from utils.solar_panel import calculate_panel_output, SolarPanelData
 from api.calculator_api import router as calculator_router
 
 app = FastAPI()
@@ -46,3 +47,22 @@ async def house_address(address: Address) -> dict[str, str] | dict:
         return output
     else:
         raise HTTPException(status_code=400, detail="No address provided")
+
+
+@app.post("/api/solar_panel_data")
+def solar_panel_data(panel_data: SolarPanelData):
+    try:
+        result = calculate_panel_output(
+            panel_data.lat,
+            panel_data.lon,
+            panel_data.tilt,
+            panel_data.azimuth,
+            panel_data.area,
+            panel_data.efficiency,
+            panel_data.weather,
+            panel_data.time
+        )
+        return result
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500, detail=str(e))

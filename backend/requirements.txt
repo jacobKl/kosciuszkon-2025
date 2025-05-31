@@ -6,3 +6,5 @@ pydantic
 shapely
 geopy
 pyyaml
+pvlib
+pandas

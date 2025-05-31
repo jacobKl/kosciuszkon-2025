@@ -47,8 +47,15 @@ def add_bbox_to_properties(feature_collection):
         polygon = Polygon(coordinates[0])
         minx, miny, maxx, maxy = polygon.bounds
 
-        # Dodaj bounding box jako [minLon, minLat, maxLon, maxLat]
-        feature["properties"]["bbox"] = [minx, miny, maxx, maxy]
+        # Cztery wierzchołki bounding boxa w formacie [[lat, lon], ...]
+        corners = [
+            [miny, minx],  # bottom-left
+            [miny, maxx],  # bottom-right
+            [maxy, maxx],  # top-right
+            [maxy, minx]   # top-left
+        ]
+
+        feature.setdefault("properties", {})["bbox"] = corners
 
     return feature_collection
 
