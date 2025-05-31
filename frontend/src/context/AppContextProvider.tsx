@@ -1,4 +1,11 @@
-import React, { useState, type ReactNode, createContext, type Dispatch, type SetStateAction, useContext } from "react";
+import React, {
+  useState,
+  type ReactNode,
+  createContext,
+  type Dispatch,
+  type SetStateAction,
+  useContext,
+} from "react";
 
 export type FormState = {
   street: string;
@@ -18,7 +25,7 @@ export type AppContextType = {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const AppContextProvider = ({ children }: { children: ReactNode }) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [formState, setFormState] = useState<FormState>({
     street: "",
     number: "",

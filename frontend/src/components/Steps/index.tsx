@@ -1,9 +1,13 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { useAppContext, type AppContextType } from "../../context/AppContextProvider";
+import {
+  useAppContext,
+  type AppContextType,
+} from "../../context/AppContextProvider";
 import AddressForm from "../AddressForm";
 import clsx from "clsx";
+import HomeScene from "../HomeScene";
 
 const Steps = () => {
   const { step }: AppContextType = useAppContext();
@@ -19,7 +23,7 @@ const Steps = () => {
       case 1:
         return <AddressForm />;
       case 2:
-        return <div className="min-w-[500px]">Account username/password</div>;
+        return <HomeScene />;
       default:
         return null;
     }
@@ -30,16 +34,36 @@ const Steps = () => {
       <div className="flex mb-4 gap-6 justify-center items-center">
         {[1, 2, 3].map((single, ix) => (
           <React.Fragment key={ix}>
-            <div className={clsx("p-4 transition-all font-thin bg-gray-100 shadow rounded-[25px] w-[50px] h-[50px] flex justify-center items-center", single <= step && "bg-primary text-white")}>
+            <div
+              className={clsx(
+                "p-4 transition-all font-thin bg-gray-100 shadow rounded-[25px] w-[50px] h-[50px] flex justify-center items-center",
+                single <= step && "bg-primary text-white",
+              )}
+            >
               {single}
             </div>
-            {single < 3 && <div className={clsx("transition-all w-[100px] h-[4px] rounded-[1px] bg-gray-100", single + 1 <= step && "bg-primary text-white")}></div>}
+            {single < 3 && (
+              <div
+                className={clsx(
+                  "transition-all w-[100px] h-[4px] rounded-[1px] bg-gray-100",
+                  single + 1 <= step && "bg-primary text-white",
+                )}
+              ></div>
+            )}
           </React.Fragment>
         ))}
       </div>
 
       <AnimatePresence mode="wait">
-        <motion.div key={step} variants={variants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.3 }} className="mb-6">
+        <motion.div
+          key={step}
+          variants={variants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={{ duration: 0.3 }}
+          className="mb-6 flex-auto"
+        >
           <StepContent />
         </motion.div>
       </AnimatePresence>
