@@ -10,8 +10,9 @@ import React, {
 export type FormState = {
   street: string;
   number: string;
-  postcode: string;
+  postalcode: string;
   city: string;
+  external_garage_count: string;
 };
 
 export type AppContextType = {
@@ -25,12 +26,13 @@ export type AppContextType = {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const AppContextProvider = ({ children }: { children: ReactNode }) => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [formState, setFormState] = useState<FormState>({
     street: "",
     number: "",
-    postcode: "",
+    postalcode: "",
     city: "",
+    external_garage_count: ""
   });
 
   return (

@@ -13,58 +13,67 @@ const AddressForm = () => {
     formState: { errors },
   } = useForm({});
 
-  const { setStep, setFormState } : AppContextType = useAppContext();
+  const { setStep, setFormState }: AppContextType = useAppContext();
 
-  const onSubmit = (data : FormState) => {
+  const onSubmit = (data: FormState) => {
     setFormState(data);
     setStep(2);
-  }
+  };
 
   return (
-      <Card title="Dane teleadresowe">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 min-w-[500px]">
-          <Input
-            label="Ulica"
-            register={register("street", {
-              required: "To pole jest wymagane",
-            })}
-            error={errors?.street?.message}
-            name="street"
-            helper="Potrzebujemy twojego adresu, żeby uzyskać wymiary dachu."
-          />
+    <Card title="Dane teleadresowe">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 min-w-[500px]">
+        <Input
+          label="Ulica"
+          register={register("street", {
+            required: "To pole jest wymagane",
+          })}
+          error={errors?.street?.message}
+          name="street"
+          helper="Potrzebujemy twojego adresu, żeby uzyskać wymiary dachu."
+        />
 
-          <Input
-            label="Numer domu"
-            register={register("number", {
-              required: "To pole jest wymagane",
-            })}
-            error={errors?.number?.message}
-            name="number"
-          />
+        <Input
+          label="Numer domu"
+          register={register("number", {
+            required: "To pole jest wymagane",
+          })}
+          error={errors?.number?.message}
+          name="number"
+        />
 
-          <Input
-            label="Kod pocztowy"
-            register={register("postcode", {
-              required: "To pole jest wymagane",
-            })}
-            error={errors?.postcode?.message}
-            name="postcode"
-          />
+        <Input
+          label="Kod pocztowy"
+          register={register("postalcode", {
+            required: "To pole jest wymagane",
+          })}
+          error={errors?.postalcode?.message}
+          name="postalcode"
+        />
 
-          <Input
-            label="Miejscowość"
-            register={register("city", {
-              required: "To pole jest wymagane",
-            })}
-            error={errors?.city?.message}
-            name="city"
-          />
+        <Input
+          label="Miejscowość"
+          register={register("city", {
+            required: "To pole jest wymagane",
+          })}
+          error={errors?.city?.message}
+          name="city"
+        />
+
+        <Input
+          label="Liczba garażów"
+          register={register("external_garage_count", {
+            required: "To pole jest wymagane",
+          })}
+          error={errors?.external_garage_count?.message}
+          name="external_garage_count"
+        />
 
         <div className="flex justify-end">
           <input type="submit" value="Dalej" className="button-primary" />
         </div>
       </form>
-      </Card>
+    </Card>
   );
 };
 

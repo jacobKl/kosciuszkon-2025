@@ -7,6 +7,7 @@ from api.calculator_api import router as calculator_router
 app = FastAPI()
 origins = [
     'http://localhost',
+    'http://localhost:8081',
     'localhost'
 ]
 app.add_middleware(
