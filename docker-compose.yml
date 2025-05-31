@@ -8,10 +8,10 @@ services:
     command: ['python', 'main.py']
 
   frontend:
-      build: ./frontend
-      ports:
-        - '8081:8081'
-      volumes:
-        - ./frontend:/app
-        - /app/node_modules
-      command: ['npm', 'start']
+    build: ./frontend
+    ports:
+      - '8081:8081'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: ['npm', 'run', 'dev']
