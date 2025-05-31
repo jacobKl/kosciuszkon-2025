@@ -15,8 +15,7 @@ async def calculate(year: int, request: Request):
 
     # Parse input data
     # TODO
-    input = data
-    print(data)
+    input = {k: v for k, v in data.items() if v != ""}
 
     calculator = Calculator(input)
 

@@ -13,13 +13,13 @@ class Calculator:
 
         input = input or {}
 
-        self.panel_installation_cost = input.get('panel_installation_cost', data.get('panel_installation_cost'))
-        self.energy_price_buy_kwh = input.get('energy_price_buy_kwh', data.get('energy_price_buy_kwh'))
-        self.energy_price_sell_kwh = input.get('energy_price_sell_kwh', data.get('energy_price_sell_kwh'))
-        self.energy_price_growth = input.get('energy_price_growth', data.get('energy_price_growth'))
-        self.energy_per_year = input.get('energy_per_year', data.get('energy_per_year'))
-        self.hourly_production_kw = input.get('hourly_production_kw', data.get('hourly_production_kw'))
-        self.consumption_level_percent = input.get('consumption_level_percent', data.get('consumption_level_percent'))
+        self.panel_installation_cost = float(input.get('panel_installation_cost', data.get('panel_installation_cost')))
+        self.energy_price_buy_kwh = float(input.get('energy_price_buy_kwh', data.get('energy_price_buy_kwh')))
+        self.energy_price_sell_kwh = float(input.get('energy_price_sell_kwh', data.get('energy_price_sell_kwh')))
+        self.energy_price_growth = float(input.get('energy_price_growth', data.get('energy_price_growth')))
+        self.energy_per_year = float(input.get('energy_per_year', data.get('energy_per_year')))
+        self.hourly_production_kw = float(input.get('hourly_production_kw', data.get('hourly_production_kw')))
+        self.consumption_level_percent = float(input.get('consumption_level_percent', data.get('consumption_level_percent')))
 
     def calculate_yearly_buy_price(self, year):
         current_year = datetime.now().year
