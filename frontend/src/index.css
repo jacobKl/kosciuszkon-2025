@@ -4,20 +4,25 @@
 
 @layer base {
   :root {
-    --color-primary: #4C9F70;
-    --color-secondary: #496F5D;
-    --color-dark: #49516F;
-    --color-accent: #6279B8;
-    --color-accent-2: #8EA4D2;
+    --color-primary: #4c9f70;
+    --color-secondary: #496f5d;
+    --color-dark: #49516f;
+    --color-accent: #6279b8;
+    --color-accent-2: #8ea4d2;
   }
 }
 
 .button-primary {
-    @apply px-4 py-2 bg-primary rounded text-white cursor-pointer hover:shadow transition-all;
+  @apply px-4 py-2 bg-primary rounded text-white cursor-pointer hover:shadow transition-all;
 }
 
 .button-secondary {
-    @apply px-4 py-2 bg-gray-100 rounded text-gray-500 cursor-pointer hover:shadow transition-all;
+  @apply px-4 py-2 bg-gray-100 rounded text-gray-500 cursor-pointer hover:shadow transition-all;
+}
+
+body,
+#root {
+  height: 100%;
 }
 
 #root {
@@ -25,9 +30,12 @@
 }
 
 main {
-  min-height: calc(100vh - 56px);
   z-index: 2;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .ribbons {
@@ -42,4 +50,12 @@ main {
 
 body {
   overflow-x: hidden;
+}
+
+canvas {
+  height: 100% !important;
+}
+
+.button-outline {
+  @apply px-4 py-2 text-dark rounded shadow text-white;
 }
