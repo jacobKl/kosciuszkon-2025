@@ -5,9 +5,11 @@ import Card from '../Card';
 import InfoCard from '../InfoCard';
 import ChartStats from '../ChartStats';
 import CalculatorTable from '../CalculatorTable';
+import { useAppContext } from '../../context/AppContextProvider';
 
 const Result = () => {
-    const { data, isLoading } = useResultQuery();
+    const { detailedConfiguratorState } = useAppContext();
+    const { data, isLoading } = useResultQuery(detailedConfiguratorState);
 
     if (isLoading) return <Card>
         ładowanie...

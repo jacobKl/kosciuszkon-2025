@@ -8,18 +8,31 @@ export type FormState = {
   external_garage_count: string;
 };
 
+export type DetailedConfiguratorState = {
+  panel_installation_cost: number | null;
+  energy_price_buy_kwh: number | null;
+  energy_price_sell_kwh: number | null;
+  energy_price_growth: number | null;
+  energy_per_year: number | null;
+  hourly_production_kw: number | null;
+  consumption_level: number | null;
+};
+
 export type AppContextType = {
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
 
   formState: FormState;
   setFormState: Dispatch<SetStateAction<FormState>>;
+
+  detailedConfiguratorState: DetailedConfiguratorState;
+  setDetailedConfiguratorState: Dispatch<SetStateAction<DetailedConfiguratorState>>;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const AppContextProvider = ({ children }: { children: ReactNode }) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   const [formState, setFormState] = useState<FormState>({
     street: "",
     number: "",
@@ -28,7 +41,18 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
     external_garage_count: "",
   });
 
-  return <AppContext.Provider value={{ formState, setFormState, step, setStep }}>{children}</AppContext.Provider>;
+  const [detailedConfiguratorState, setDetailedConfiguratorState] = useState<DetailedConfiguratorState>({
+    panel_installation_cost: null,
+    energy_price_buy_kwh: 1.23,
+    energy_price_sell_kwh: 0.51,
+
+    energy_price_growth: null,
+    energy_per_year: null,
+    hourly_production_kw: null,
+    consumption_level: null,
+  });
+
+  return <AppContext.Provider value={{ formState, setFormState, step, setStep, detailedConfiguratorState, setDetailedConfiguratorState }}>{children}</AppContext.Provider>;
 };
 
 const useAppContext = () => {
