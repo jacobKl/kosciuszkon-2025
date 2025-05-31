@@ -63,35 +63,36 @@ class Calculator:
         return self.calculate_yearly_buy_price(year) * self.energy_consumption() - self.profit(year)
 
     def savings(self, year):
-        return self.cost(year) - self.cost_without_installation(year)
+        return self.cost_without_installation(year) - self.cost(year)
 
     def to_result_dict(self, year):
         current_year = int(datetime.now().year)
         result = {
-            "panel_installation_cost": self.panel_installation_cost,
-            "energy_price_buy_kwh": self.energy_price_buy_kwh,
-            "energy_price_sell_kwh": self.energy_price_sell_kwh,
-            "energy_price_growth_percent": self.energy_price_growth,
-            "used_energy_per_year": self.energy_per_year,
-            "hourly_production_kw": self.hourly_production_kw,
-            "yearly_production_kw": self.produced_energy_per_year(),
-            "consumption_level_percent": self.consumption_level_percent,
+            "panel_installation_cost": round(self.panel_installation_cost, 2),
+            "energy_price_buy_kwh": round(self.energy_price_buy_kwh, 2),
+            "energy_price_sell_kwh": round(self.energy_price_sell_kwh, 2),
+            "energy_price_growth_percent": round(self.energy_price_growth, 2),
+            "used_energy_per_year": round(self.energy_per_year, 2),
+            "hourly_production_kw": round(self.hourly_production_kw, 2),
+            "yearly_production_kw": round(self.produced_energy_per_year(), 2),
+            "consumption_level_percent": round(self.consumption_level_percent, 2),
 
-            "produced_energy_per_year": self.produced_energy_per_year(),
-            "self_consumption": self.self_consumption(),
-            "energy_into_grid": self.energy_into_grid(),
-            "energy_consumption": self.energy_consumption(),
+            "produced_energy_per_year": round(self.produced_energy_per_year(), 2),
+            "self_consumption": round(self.self_consumption(), 2),
+            "energy_into_grid": round(self.energy_into_grid(), 2),
+            "energy_consumption": round(self.energy_consumption(), 2),
 
-            "statistics": {}
+            "statistics": []
         }
 
         while current_year + 1 <= year:
             current_year += 1
-            result["statistics"][current_year] = {
-                "cost_without_installation": self.cost_without_installation(current_year),
-                "profit": self.profit(current_year),
-                "cost": self.cost(current_year),
-                "savings": self.savings(current_year)
-            }
+            result["statistics"].append({
+                "year": current_year,
+                "cost_without_installation": round(self.cost_without_installation(current_year), 2),
+                "profit": round(self.profit(current_year), 2),
+                "cost": round(self.cost(current_year), 2),
+                "savings": round(self.savings(current_year), 2)
+            })
 
         return result
