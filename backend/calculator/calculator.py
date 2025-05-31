@@ -26,11 +26,8 @@ class Calculator:
         price = self.energy_price_buy_kwh
 
         while current_year + 1 <= year:
-            print(current_year)
             current_year = current_year + 1
             price = price + (1 * self.energy_price_growth)
-            print(price)
-        print("======")
 
         return price
 
