@@ -2,6 +2,8 @@ import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from utils.osm import geocode_address, create_bbox, query_buildings, osm_to_geojson, check_address, filter_buildings, calculate_average_centroid, find_main_and_n_nearest_without_housenumber, Address
+from api.calculator_api import router as calculator_router
+
 app = FastAPI()
 origins = [
     'http://localhost',
@@ -14,6 +16,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+app.include_router(calculator_router)
 
 
 @app.get("/")
