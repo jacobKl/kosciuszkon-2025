@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  type ReactNode,
-  createContext,
-  type Dispatch,
-  type SetStateAction,
-  useContext,
-} from "react";
+import React, { useState, type ReactNode, createContext, type Dispatch, type SetStateAction, useContext } from "react";
 
 export type FormState = {
   street: string;
@@ -32,14 +25,10 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
     number: "",
     postalcode: "",
     city: "",
-    external_garage_count: ""
+    external_garage_count: "",
   });
 
-  return (
-    <AppContext.Provider value={{ formState, setFormState, step, setStep }}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={{ formState, setFormState, step, setStep }}>{children}</AppContext.Provider>;
 };
 
 const useAppContext = () => {

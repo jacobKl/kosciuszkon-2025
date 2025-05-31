@@ -7,7 +7,8 @@ import {
 } from "../../context/AppContextProvider";
 import AddressForm from "../AddressForm";
 import clsx from "clsx";
-import HomeScene from "../HomeScene";
+import RoofForm from "../RoofForm";
+import DetailedForm from "../DetailedForm";
 
 const Steps = () => {
   const { step }: AppContextType = useAppContext();
@@ -23,7 +24,9 @@ const Steps = () => {
       case 1:
         return <AddressForm />;
       case 2:
-        return <HomeScene />;
+        return <RoofForm />;
+      case 3: 
+        return <DetailedForm />;
       default:
         return null;
     }
@@ -62,7 +65,7 @@ const Steps = () => {
           animate="animate"
           exit="exit"
           transition={{ duration: 0.3 }}
-          className="mb-6 flex-auto"
+          className="mb-6"
         >
           <StepContent />
         </motion.div>

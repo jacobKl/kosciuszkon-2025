@@ -34,6 +34,32 @@ def filter_buildings(osm_data):
         print(element)
 
 
+def add_bbox_to_properties(feature_collection):
+    for feature in feature_collection["features"]:
+        geometry = feature.get("geometry", {})
+        if geometry.get("type") != "Polygon":
+            continue
+
+        coordinates = geometry.get("coordinates", [])
+        if not coordinates:
+            continue
+
+        polygon = Polygon(coordinates[0])
+        minx, miny, maxx, maxy = polygon.bounds
+
+        # Cztery wierzchołki bounding boxa w formacie [[lat, lon], ...]
+        corners = [
+            [miny, minx],  # bottom-left
+            [miny, maxx],  # bottom-right
+            [maxy, maxx],  # top-right
+            [maxy, minx]   # top-left
+        ]
+
+        feature.setdefault("properties", {})["bbox"] = corners
+
+    return feature_collection
+
+
 def find_nearest_feature(data, lat, lon):
     nearest_feature = None
     min_distance = float('inf')

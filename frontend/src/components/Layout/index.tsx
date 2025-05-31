@@ -9,8 +9,10 @@ const Layout = ({ children }: { children?: ReactNode }) => {
       <Ribbons />
       {/* <Loader /> */}
       <Header />
-      <main className="container mx-auto flex justify-center align-center flex-col min-h-[calc(100vh - 60px)] py-4">
-        {children}
+      <main className="flex flex-col flex-1 w-full min-h-[calc(100vh-60px)] justify-center items-center py-10">
+        <div className="container">
+          {children}
+        </div>
       </main>
     </>
   );
