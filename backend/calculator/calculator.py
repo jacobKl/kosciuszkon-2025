@@ -19,7 +19,8 @@ class Calculator:
         self.energy_price_growth = float(input.get('energy_price_growth', data.get('energy_price_growth')))
         self.energy_per_year = float(input.get('energy_per_year', data.get('energy_per_year')))
         self.hourly_production_kw = float(input.get('hourly_production_kw', data.get('hourly_production_kw')))
-        self.consumption_level_percent = float(input.get('consumption_level_percent', data.get('consumption_level_percent')))
+        self.consumption_level_percent = float(
+            input.get('consumption_level_percent', data.get('consumption_level_percent')))
 
     def calculate_yearly_buy_price(self, year):
         current_year = datetime.now().year
@@ -65,6 +66,16 @@ class Calculator:
     def savings(self, year):
         return self.cost_without_installation(year) - self.cost(year)
 
+    def state(self, year):
+        current_year = datetime.now().year
+        savings_sum = 0
+
+        while current_year + 1 <= year:
+            current_year += 1
+            savings_sum += self.savings(current_year)
+
+        return savings_sum
+
     def to_result_dict(self, year):
         current_year = int(datetime.now().year)
         result = {
@@ -92,7 +103,8 @@ class Calculator:
                 "cost_without_installation": round(self.cost_without_installation(current_year), 2),
                 "profit": round(self.profit(current_year), 2),
                 "cost": round(self.cost(current_year), 2),
-                "savings": round(self.savings(current_year), 2)
+                "savings": round(self.savings(current_year), 2),
+                "state": round(self.state(current_year), 2)
             })
 
         return result

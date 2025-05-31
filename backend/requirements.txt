@@ -8,3 +8,5 @@ geopy
 pyyaml
 pvlib
 pandas
+joblib
+scikit-learn
