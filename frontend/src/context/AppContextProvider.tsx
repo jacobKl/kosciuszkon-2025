@@ -12,6 +12,7 @@ export type FormState = {
   number: string;
   postalcode: string;
   city: string;
+  external_garage_count: string;
 };
 
 export type AppContextType = {
@@ -31,6 +32,7 @@ const AppContextProvider = ({ children }: { children: ReactNode }) => {
     number: "",
     postalcode: "",
     city: "",
+    external_garage_count: ""
   });
 
   return (
