@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import type { FormState } from '../context/AppContextProvider';
+import type { DetailedConfiguratorState, FormState } from '../context/AppContextProvider';
 
-const getResult = async (): Promise<any> => {
+const getResult = async (detailedConfiguratorState: DetailedConfiguratorState): Promise<any> => {
   const res = await fetch('http://localhost:8080/calculator/calculate/2040', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(detailedConfiguratorState)
   });
 
   if (!res.ok) {
@@ -14,10 +15,10 @@ const getResult = async (): Promise<any> => {
   return res.json();
 };
 
-export const useResultQuery = () => {
+export const useResultQuery = (detailedConfiguratorState: DetailedConfiguratorState) => {
   return useQuery({
     queryKey: ['resultQuery'],
-    queryFn: () => getResult(),
+    queryFn: () => getResult(detailedConfiguratorState),
     retry: false,
   });
 };
