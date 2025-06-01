@@ -46,6 +46,9 @@ def average_point(p1, p2, p3, p4):
 
 def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
     center = [center['lon'], center['lat']]
+    house_roof_geographic_data = roof_data.copy()
+    print(house_roof_geographic_data)
+    house_roof_local_data = scale_values(roof_data, center)
     roof_data = scale_values(roof_data, center)
     """
     Extract the roof top coordinates from the roof data.
@@ -65,8 +68,9 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
                 "most_eastern": sorted(roof_data, key=lambda x: x[0], reverse=True)[0]
             }
         }
+        print(house_data['corners'])
         solar_panels = place_solar_panel_on_roof_planes(
-            {'corners': house_data['corners'], 'type': 'flat'})
+            {'corners': house_data['corners'], 'type': 'flat'}, house_roof_geo=house_roof_geographic_data, house_roof_local=house_roof_local_data)
         solar_panels_output = {
             'clear': calculate_panel_output(
                 center[1], center[0], 30, 180, 1.65, 0.18, 'clear', None),
@@ -223,10 +227,10 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
             "Roof type not supported. Use 'flat', 'gable', or 'hip'.")
 
 
-def place_solar_panel_on_roof_planes(roof_data):
+def place_solar_panel_on_roof_planes(roof_data, house_roof_geo, house_roof_local):
     if roof_data["type"] == "flat":
-        subrects_data = fit_rotated_rects_in_geobounds(
-            roof_data["corners"],  rect_w=1.0, rect_h=1.65, angle_deg=compute_longitude_deviation_deg(roof_data['corners']), padding=0.5, vertical_margin=1.0, slope_deg=30.0)
+        subrects_data = fit_solar_panels_local(
+            house_roof_geo, house_roof_local,  panel_w=1.0, panel_h=1.65, padding=2.0, vertical_margin=1.0, slope_deg=30.0)
         return subrects_data
 
 
@@ -244,6 +248,7 @@ def compute_longitude_deviation_deg(geo_bounds):
 
 
 def rotate_shape(shape_points, angle_deg):
+    """Obraca punkty o zadany kąt w stopniach"""
     angle_rad = np.radians(angle_deg)
     rot_matrix = np.array([
         [np.cos(angle_rad), -np.sin(angle_rad)],
@@ -253,76 +258,152 @@ def rotate_shape(shape_points, angle_deg):
 
 
 def is_inside_container(points, west, east, south, north):
+    """Sprawdza czy wszystkie punkty są wewnątrz kontenera"""
     xs, ys = points[:, 0], points[:, 1]
     return np.all((west <= xs) & (xs <= east) & (south <= ys) & (ys <= north))
 
 
-def fit_rotated_rects_in_geobounds(geo_bounds, rect_w, rect_h, angle_deg, padding, vertical_margin, slope_deg
-                                   ):
-    west = min(geo_bounds['most_western'][1], geo_bounds['most_eastern'][1])
-    east = max(geo_bounds['most_western'][1], geo_bounds['most_eastern'][1])
-    south = min(geo_bounds['most_southern'][0], geo_bounds['most_northern'][0])
-    north = max(geo_bounds['most_southern'][0], geo_bounds['most_northern'][0])
+def compute_south_vector_local(bbox_geo, bbox_local):
+    geo = np.array(bbox_geo)
+    local = np.array(bbox_local)
 
-    # prostokąt wokół (0,0)
-    half_w, half_h = rect_w / 2, rect_h / 2
-    local_shape = np.array([
+    center_geo = np.mean(geo, axis=0)
+    center_local = np.mean(local, axis=0)
+
+    south_geo = [center_geo[0], center_geo[1] - 0.0001]
+
+    def find_nearest_local(target):
+        distances = np.linalg.norm(geo - target, axis=1)
+        return local[np.argmin(distances)]
+
+    p0 = find_nearest_local(center_geo)
+    p1 = find_nearest_local(south_geo)
+
+    vec = p1 - p0
+    norm = np.linalg.norm(vec)
+
+    if norm == 0:
+        print(
+            "⚠️ Nie udało się wyznaczyć kierunku południa – zwracam domyślny wektor [0, -1]")
+        return np.array([0.0, -1.0])
+
+    return vec / norm
+
+
+def rotate_shape(shape_points, angle_deg):
+    angle_rad = np.radians(angle_deg)
+    rot_matrix = np.array([
+        [np.cos(angle_rad), -np.sin(angle_rad)],
+        [np.sin(angle_rad),  np.cos(angle_rad)]
+    ])
+    return np.dot(shape_points, rot_matrix.T)
+
+
+def is_inside_bounds(points, width, height):
+    half_w, half_h = width / 2, height / 2
+    xs, ys = points[:, 0], points[:, 1]
+    return np.all((-half_w <= xs) & (xs <= half_w) & (-half_h <= ys) & (ys <= half_h))
+
+
+def fit_solar_panels_local(bbox_corners_geo, bbox_local_points,
+                           panel_w=1.0, panel_h=1.65, padding=2.0,
+                           vertical_margin=0.5, slope_deg=30):
+    """
+    bbox_corners_geo: [[lon, lat], ...]
+    bbox_local_points: [[x, z], ...]
+    """
+    print(f"=== ROZMIESZCZANIE PANELI SŁONECZNYCH ===")
+    print(bbox_corners_geo, bbox_local_points)
+    # 1. Oblicz południe
+    south_vector = compute_south_vector_local(
+        bbox_corners_geo, bbox_local_points)
+    angle_rad = np.arctan2(south_vector[0], -south_vector[1])
+    south_angle_deg = np.degrees(angle_rad)
+    print(south_vector)
+
+    print(f"Południe (kąt): {south_angle_deg:.2f}°")
+
+    # 2. Oblicz rozmiary obszaru z lokalnych punktów
+    local = np.array(bbox_local_points)
+    xs = local[:, 0]
+    zs = local[:, 1]
+    area_width_m = xs.max() - xs.min()
+    area_height_m = zs.max() - zs.min()
+
+    print(f"Rozmiar obszaru: {area_width_m:.2f}m × {area_height_m:.2f}m")
+
+    # 3. Panel
+    half_w, half_h = panel_w / 2, panel_h / 2
+    panel_shape = np.array([
         [-half_w, -half_h],
         [half_w, -half_h],
         [half_w,  half_h],
         [-half_w,  half_h]
     ])
+    rotated_panel = rotate_shape(panel_shape, south_angle_deg)
 
-    rotated_shape = rotate_shape(local_shape, angle_deg)
-
-    min_x, min_y = np.min(rotated_shape, axis=0)
-    max_x, max_y = np.max(rotated_shape, axis=0)
+    print(rotated_panel)
+    min_x, min_y = np.min(rotated_panel, axis=0)
+    max_x, max_y = np.max(rotated_panel, axis=0)
     bbox_w = max_x - min_x
     bbox_h = max_y - min_y
 
-    usable_w = (east - west) - 2 * padding
-    usable_h = (north - south) - 2 * padding
+    usable_w = area_width_m - 2 * padding
+    usable_h = area_height_m - 2 * padding
 
     if usable_w <= 0 or usable_h <= 0:
-        return []
+        return {"rectangles": [], "solar_area": 0, "panel_count": 0}
 
-    cols = int(usable_w // bbox_w)
-    rows = int((usable_h + vertical_margin) // (bbox_h + vertical_margin))
-
-    if cols == 0 or rows == 0:
-        return []
+    cols = max(1, int(usable_w // bbox_w))
+    rows = max(1, int((usable_h + vertical_margin) //
+               (bbox_h + vertical_margin)))
 
     used_w = cols * bbox_w
     used_h = rows * bbox_h + (rows - 1) * vertical_margin
 
-    offset_x = west + padding + (usable_w - used_w) / 2
-    offset_y = south + padding + (usable_h - used_h) / 2
+    start_x = -used_w / 2 + bbox_w / 2
+    start_y = -used_h / 2 + bbox_h / 2
 
     slope_scale = np.tan(np.radians(slope_deg))
 
-    # jednostkowy wektor osi nachylenia (czyli lokalny "południe")
-    south_vector = rotate_shape(np.array([[0, -1]]), angle_deg)[0]
-    south_vector /= np.linalg.norm(south_vector)
-
     rectangles_3d = []
+    panel_count = 0
+
     for row in range(rows):
-        y = offset_y + bbox_h / 2 + row * (bbox_h + vertical_margin)
+        y = start_y + row * (bbox_h + vertical_margin)
         for col in range(cols):
-            x = offset_x + bbox_w / 2 + col * bbox_w
-            translated = rotated_shape + np.array([x, y])
+            x = start_x + col * bbox_w
+            translated = rotated_panel + np.array([x, y])
 
-            if is_inside_container(translated, west, east, south, north):
+            if is_inside_bounds(translated, area_width_m, area_height_m):
                 center = np.mean(translated, axis=0)
-                # delta wzdłuż osi nachylenia (czyli lokalnego południa)
                 delta = np.dot(translated - center, south_vector)
-                z = delta * slope_scale
-                rectangle_3d = np.column_stack((translated, z))
-                rectangles_3d.append(rectangle_3d)
+                z_coords = delta * slope_scale
 
-    solar_area = 1.0*1.65 * len(rectangles_3d)
-    rectangles_3d = [r3d.tolist() for r3d in rectangles_3d]
+                panel_3d = []
+                for i, point in enumerate(translated):
+                    panel_3d.append([
+                        float(point[0]),           # x
+                        float(z_coords[i]-0.5),  # y (wysokość + 10)
+                        float(point[1])            # z
+                    ])
+
+                rectangles_3d.append(panel_3d)
+                panel_count += 1
+
+    total_area = panel_count * panel_w * panel_h
+
     for i, rect in enumerate(rectangles_3d):
         rectangles_3d[i] = [[rect[0], rect[1], rect[2]],
-                            [rect[1], rect[2], rect[3]]]
+                            [rect[0], rect[2], rect[3]]]
 
-    return {"rectangles": rectangles_3d, "solar_area": solar_area, "slope_deg": slope_deg}
+    return {
+        "rectangles": rectangles_3d,
+        "solar_area": total_area,
+        "panel_count": panel_count,
+        "slope_deg": slope_deg,
+        "south_vector": south_vector.tolist(),
+        "south_angle_deg": south_angle_deg,
+        "area_dimensions": [area_width_m, area_height_m],
+        "grid_size": [cols, rows]
+    }
