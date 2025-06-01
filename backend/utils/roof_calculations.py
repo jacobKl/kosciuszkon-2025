@@ -32,7 +32,6 @@ def scale_values(values, center):
 
 
 def distance(point1, point2):
-    print("dupa", point1, point2)
     return math.sqrt((point2[0] - point1[0])**2 + (point2[1] - point1[1])**2)
 
 
@@ -54,7 +53,6 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
     Returns:
         list: List of roof top coordinates.
     """
-    print(roof_type)
     if roof_type == 'flat':
         house_data = {
             "corners": {
@@ -88,7 +86,6 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
         }
         return roof_bounding_points
     elif roof_type == 'gable':
-        print(roof_data)
         house_data = {
             "corners": {
                 "most_northern": sorted(roof_data, key=lambda x: x[1], reverse=True)[0],
@@ -146,14 +143,8 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
                     house_data['corners']['most_eastern'], house_data['roof_edges'][2][1]],
             ]
         }
-        print(roof_bounding_points)
         return roof_bounding_points
     elif roof_type == 'hip':
-        print(roof_data)
-        middle_point = average_point(*roof_data)
-        print(middle_point)
-        distance_to_middle = distance(middle_point, roof_data[0])
-        middle_point.append(house_height + distance_to_middle)
         house_data = {
             "corners": {
                 "most_northern": sorted(roof_data, key=lambda x: x[1], reverse=True)[0],
@@ -162,6 +153,11 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
                 "most_eastern": sorted(roof_data, key=lambda x: x[0], reverse=True)[0]
             }
         }
+
+        middle_point = average_point(*roof_data)
+        distance_to_middle = distance(middle_point, roof_data[0])
+        middle_point.append(middle_point[1])  # Copy y-coordinate
+        middle_point[1] = house_height + distance_to_middle
         house_data['corners']['most_northern'].append(
             house_data['corners']['most_northern'][1])
         house_data['corners']['most_southern'].append(
