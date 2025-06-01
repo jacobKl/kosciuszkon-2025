@@ -1,7 +1,7 @@
 panel_installation_cost: 5000
 energy_price_buy_kwh: 1.23
 energy_price_sell_kwh: 0.51062
-energy_price_growth: 0.071
+energy_price_growth: 7.1
 energy_per_year: 1768
 hourly_production_kw: 0.142
-consumption_level_percent: 0.22
+consumption_level_percent: 22

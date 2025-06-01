@@ -16,11 +16,11 @@ class Calculator:
         self.panel_installation_cost = float(input.get('panel_installation_cost', data.get('panel_installation_cost')))
         self.energy_price_buy_kwh = float(input.get('energy_price_buy_kwh', data.get('energy_price_buy_kwh')))
         self.energy_price_sell_kwh = float(input.get('energy_price_sell_kwh', data.get('energy_price_sell_kwh')))
-        self.energy_price_growth = float(input.get('energy_price_growth', data.get('energy_price_growth')))
+        self.energy_price_growth = float(input.get('energy_price_growth', data.get('energy_price_growth')) / 100)
         self.energy_per_year = float(input.get('energy_per_year', data.get('energy_per_year')))
         self.hourly_production_kw = float(input.get('hourly_production_kw', data.get('hourly_production_kw')))
         self.consumption_level_percent = float(
-            input.get('consumption_level_percent', data.get('consumption_level_percent')))
+            input.get('consumption_level_percent', data.get('consumption_level_percent')) / 100)
 
     def calculate_yearly_buy_price(self, year):
         current_year = datetime.now().year
@@ -93,7 +93,15 @@ class Calculator:
             "energy_into_grid": round(self.energy_into_grid(), 2),
             "energy_consumption": round(self.energy_consumption(), 2),
 
-            "statistics": []
+            "statistics": [],
+
+            "endowments": [
+                {
+                    "name": "Mój prąd",
+                    "url": "https://mojprad.gov.pl/",
+                    "image": None
+                }
+            ]
         }
 
         while current_year + 1 <= year:
