@@ -157,7 +157,7 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
         middle_point = average_point(*roof_data)
         distance_to_middle = distance(middle_point, roof_data[0])
         middle_point.append(middle_point[1])  # Copy y-coordinate
-        middle_point[1] = house_height + distance_to_middle
+        middle_point[1] = house_height + (distance_to_middle/2)
         house_data['corners']['most_northern'].append(
             house_data['corners']['most_northern'][1])
         house_data['corners']['most_southern'].append(
