@@ -1,33 +1,11 @@
 import { Canvas, useThree } from "@react-three/fiber";
 import { useEffect } from "react";
 import { OrbitControls } from "@react-three/drei";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 import House from "../House";
 import GrassPlane from "../GrassPanel";
-
-// Loader component for Canvas
-const CanvasLoader = () => (
-  <motion.div
-    className="absolute inset-0 flex items-center justify-center bg-white z-50"
-    initial={{ opacity: 1 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    <motion.div
-      animate={{ rotate: 360 }}
-      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-      style={{
-        width: 48,
-        height: 48,
-        border: "6px solid #4C9F70",
-        borderTop: "6px solid #fff",
-        borderRadius: "50%",
-      }}
-    />
-  </motion.div>
-);
+import CanvasLoader from "../CanvasLoader";
 
 function CameraLookAtCenter() {
   const { camera } = useThree();

@@ -4,10 +4,10 @@ import logo from '../../../public/logo.png';
 const Header = () => {
     return (
         <nav className="py-4 bg-white shadow">
-        <div className="container mx-auto flex items-center">
+        <a href="/" className="container mx-auto flex items-center">
             <img src={logo} alt={""} className={"h-10"}/>
             <div>Green<b>House</b></div>
-        </div>
+        </a>
     </nav>
     )
 }
