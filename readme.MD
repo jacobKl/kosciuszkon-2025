@@ -44,7 +44,7 @@ To run the application locally using Docker Compose:
    ```bash
    docker-compose up --build -d
    ```
-4. Access the application at [http://localhost:8080](http://localhost:8081) in your web browser.
+4. Access the application at [http://localhost:8081](http://localhost:8081) in your web browser.
 
 ## Future Development
 
