@@ -208,7 +208,7 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
 def place_solar_panel_on_roof_planes(roof_data, house_roof_geo, house_roof_local):
     if roof_data["type"] == "flat":
         subrects_data = fit_solar_panels_local(
-            house_roof_geo, house_roof_local,  panel_w=1.0, panel_h=1.65, padding=2.0, vertical_margin=1.0, slope_deg=30.0)
+            house_roof_geo, house_roof_local,  panel_w=1.0, panel_h=1.65, padding=2.5, vertical_margin=1.0, slope_deg=30.0)
         return subrects_data
 
 
@@ -280,7 +280,7 @@ def is_inside_bounds(points, width, height):
 
 
 def fit_solar_panels_local(bbox_corners_geo, bbox_local_points,
-                           panel_w=1.0, panel_h=1.65, padding=2.0,
+                           panel_w=1.0, panel_h=1.65, padding=3.0,
                            vertical_margin=0.5, slope_deg=30):
     south_vector = compute_south_vector_local(
         bbox_corners_geo, bbox_local_points)
