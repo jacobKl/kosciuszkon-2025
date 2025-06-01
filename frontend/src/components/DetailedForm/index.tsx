@@ -48,37 +48,39 @@ const DetailedForm = () => {
     <>
       <Card full={true} title="Szczegółowe informacje">
         <form className="grid grid-cols-3 gap-6" onSubmit={handleSubmit(onSubmit)}>
-          <Input name="panel_installation_cost" label="Koszt instalacji [PLN]" register={register("panel_installation_cost")} error={errors?.panel_installation_cost?.message} />
+          <Input unit="PLN" name="panel_installation_cost" label="Koszt instalacji" register={register("panel_installation_cost")} error={errors?.panel_installation_cost?.message} />
 
           <Input
+            unit="PLN"
             name="energy_price_buy_kwh"
-            label="Cena zakupu 1kWh [PLN]"
+            label="Cena zakupu 1kWh"
             register={register("energy_price_buy_kwh")}
             defaultValue={detailedConfiguratorState?.energy_price_buy_kwh}
             error={errors?.energy_price_buy_kwh?.message}
           />
 
           <Input
+            unit="PLN"
             name="energy_price_sell_kwh"
-            label="Cena sprzedaży 1kWh [PLN]"
+            label="Cena sprzedaży 1kWh"
             register={register("energy_price_sell_kwh")}
             defaultValue={detailedConfiguratorState?.energy_price_sell_kwh}
             error={errors?.energy_price_sell_kwh?.message}
           />
 
-          <Input defaultValue={7} name="energy_price_growth" label="Wzrost ceny energii rok do roku [%]" register={register("energy_price_growth")} error={errors?.energy_price_growth?.message} />
-          <div className="grid grid-cols-2 gap-4">
-            <Input ref={inputRef} name="energy_per_year" label="Zużycie roczne [kWh]" register={register("energy_per_year")} error={errors?.energy_per_year?.message} />
+          <Input unit="%" defaultValue={7} name="energy_price_growth" label="Wzrost ceny energii rok do roku" register={register("energy_price_growth")} error={errors?.energy_price_growth?.message} />
+          <div className="flex items-center">
+            <Input unit="kWh" ref={inputRef} name="energy_per_year" label="Zużycie roczne" register={register("energy_per_year")} error={errors?.energy_per_year?.message} />
 
-            <div>
-              <button onClick={openModal} className="button-primary">
+            <div className="pl-2">
+              <button onClick={openModal} className="p-1 bg-gray-100 rounded">
                 Estymuj
               </button>
             </div>
           </div>
-          <Input name="hourly_production_kw" label="Produkcja na godzinę [kWh]" register={register("hourly_production_kw")} error={errors?.hourly_production_kw?.message} />
+          <Input unit="kWh" name="hourly_production_kw" label="Produkcja na godzinę" register={register("hourly_production_kw")} error={errors?.hourly_production_kw?.message} />
 
-          <Input defaultValue={22} name="consumption_level" label="Poziom konsumpcji [%]" register={register("consumption_level")} error={errors?.consumption_level?.message} />
+          <Input unit="%" defaultValue={22} name="consumption_level" label="Poziom konsumpcji" register={register("consumption_level")} error={errors?.consumption_level?.message} />
 
           <div className="col-span-3 flex justify-end">
             <input className="button-primary" type="submit" value="Dalej" />

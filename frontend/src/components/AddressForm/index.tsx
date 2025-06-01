@@ -67,6 +67,7 @@ const AddressForm = () => {
           })}
           error={errors?.external_garage_count?.message}
           name="external_garage_count"
+          helper="Jeśli chcesz zamontować panele na przybudówkach uwzględnij ich ilość na działce."
         />
 
         <div className="flex justify-end">
