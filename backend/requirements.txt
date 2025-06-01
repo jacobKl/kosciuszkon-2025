@@ -10,3 +10,4 @@ pvlib
 pandas
 joblib
 scikit-learn
+tinydb
