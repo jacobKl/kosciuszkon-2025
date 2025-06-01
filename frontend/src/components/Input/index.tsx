@@ -1,6 +1,6 @@
 import React from "react";
 
-import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import type { UseFormRegisterReturn } from "react-hook-form";
 
 type InputProps = {
   label: string;
@@ -31,7 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ label, register,
       {unit && <span className="absolute right-1 bottom-3 text-gray-400 font-thin">{unit}</span>}
       <label
         htmlFor={name}
-        className="absolute pointer-events-none font-thin left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+        className="absolute pointer-events-none font-thin left-0 -top-2 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2 peer-focus:text-gray-600 peer-focus:text-sm"
       >
         {label}
       </label>
