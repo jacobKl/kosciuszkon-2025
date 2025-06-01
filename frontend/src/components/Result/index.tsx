@@ -9,12 +9,13 @@ import ProfitChart from "../ProfitChart";
 import Endowments from "../Endowments";
 
 import {useAppContext} from "../../context/AppContextProvider";
+import CanvasLoader from "../CanvasLoader";
 
 const Result = () => {
     const {detailedConfiguratorState} = useAppContext();
     const {data, isLoading} = useResultQuery(detailedConfiguratorState);
 
-    if (isLoading) return <Card>ładowanie...</Card>;
+    if (isLoading) return <CanvasLoader />;
 
     return (
         <Card title="Rezultat" full={true} url={data.pdf_url}>

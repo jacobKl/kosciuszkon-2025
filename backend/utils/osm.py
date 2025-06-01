@@ -69,7 +69,7 @@ def add_bbox_to_properties(feature_collection):
                 'hip': hip_data['solar_panels']
             }
         }
-        # feature.setdefault("properties", {})["bbox"] = corners
+
         feature.setdefault("properties", {})[
             "roof_3d_polygons"] = roof_data['roof']
         feature_center = [feature_collection['properties']['average_centroid']
@@ -86,7 +86,6 @@ def find_nearest_feature(data, lat, lon):
     min_distance = float('inf')
 
     for feature in data["features"]:
-        # Zakładamy typ Polygon
         coordinates = feature["geometry"]["coordinates"][0]
         polygon = Polygon(coordinates)
         centroid = polygon.centroid
@@ -111,14 +110,12 @@ def find_main_and_n_nearest_without_housenumber(data, lat, lon, n=5):
         feature["_centroid"] = (centroid.y, centroid.x)
         all_features.append(feature)
 
-    # Znajdź najbliższy budynek
     main_feature = min(
         all_features,
         key=lambda f: geodesic((lat, lon), f["_centroid"]).meters
     )
     main_centroid = main_feature["_centroid"]
 
-    # Znajdź n najbliższych bez addr_housenumber, pomijając główny
     others = []
     for feature in all_features:
         if feature == main_feature:
@@ -134,7 +131,6 @@ def find_main_and_n_nearest_without_housenumber(data, lat, lon, n=5):
     others.sort(key=lambda f: f["distance_m"])
     nearest_without_housenumber = [item["feature"] for item in others[:n]]
 
-    # Usuń pomocnicze "_centroid" przed zwrotem
     for feature in [main_feature] + nearest_without_housenumber:
         feature.pop("_centroid", None)
 
@@ -158,14 +154,14 @@ def calculate_average_centroid(feature_collection):
         if not coordinates:
             continue
 
-        polygon = Polygon(coordinates[0])  # pierwszy pierścień
+        polygon = Polygon(coordinates[0])
         centroid = polygon.centroid
         lat_sum += centroid.y
         lon_sum += centroid.x
         count += 1
 
     if count == 0:
-        return None  # brak poligonów
+        return None
 
     avg_lat = lat_sum / count
     avg_lon = lon_sum / count
@@ -229,21 +225,18 @@ def osm_to_geojson(osm_data):
                 props = {}
                 tags = el.get("tags", {})
 
-                # Wysokość budynku
                 if "height" in tags:
                     props["height"] = float(tags["height"])
                 elif "building:levels" in tags:
-                    props["height"] = int(tags["building:levels"]) * 3
+                    props["height"] = float(tags["building:levels"]) * 3
                 else:
-                    props["height"] = 10  # domyślna
+                    props["height"] = 10
 
-                # Dach
                 for roof_tag in ["roof:shape", "roof:height", "roof:angle", "roof:direction", "roof:material"]:
                     if roof_tag in tags:
                         props[roof_tag.replace(
                             "roof:", "roof_")] = tags[roof_tag]
 
-                # Adres i nazwa
                 for addr_tag in ["addr:street", "addr:housenumber", "addr:city", "name"]:
                     if addr_tag in tags:
                         props[addr_tag.replace(

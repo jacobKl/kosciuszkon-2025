@@ -1,4 +1,4 @@
-import React, { useState, type SyntheticEvent } from "react";
+import React, { useState } from "react";
 import Card from "../Card";
 import HomeScene from "../HomeScene";
 import ControlledInput from "../ControlledInput";
@@ -69,7 +69,7 @@ const RoofForm = () => {
             <div className="flex flex-col gap-4 px-4 py-2">
               <ControlledInput
                 name="roof_height"
-                onInput={(e: SyntheticEvent) =>
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
                   updateConfiguration("roof_height", e.target.value)
                 }
                 label={"Wysokość dachu [m]"}
@@ -78,7 +78,7 @@ const RoofForm = () => {
 
               <ControlledInput
                 name="building_height"
-                onInput={(e: SyntheticEvent) =>
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
                   updateConfiguration("building_height", e.target.value)
                 }
                 label={"Wysokość budynku [m]"}
@@ -87,7 +87,7 @@ const RoofForm = () => {
 
               <ControlledInput
                 name="roof_angle"
-                onInput={(e: SyntheticEvent) =>
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
                   updateConfiguration("roof_angle", e.target.value)
                 }
                 label={"Kąt dachu"}
@@ -96,7 +96,7 @@ const RoofForm = () => {
 
               <ControlledInput
                 name="solar_amount"
-                onInput={(e: SyntheticEvent) =>
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
                   updateConfiguration("solar_amount", e.target.value)
                 }
                 label="Ilość paneli"
