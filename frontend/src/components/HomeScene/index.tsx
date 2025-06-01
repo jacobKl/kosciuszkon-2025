@@ -15,7 +15,7 @@ function CameraLookAtCenter() {
   return null;
 }
 
-const HomeScene = () => {
+const HomeScene = ({ roofType, roofOrientation } : { roofType: string; roofOrientation: boolean; }) => {
   const { formState } = useAppContext();
 
   const { data, isError, isLoading } = useAddressQuery(formState);
@@ -32,7 +32,7 @@ const HomeScene = () => {
           maxDistance={50}
         />
         {data?.features.map((feature, index) => (
-          <House key={`house${index}`} house={feature} data={data} />
+          <House key={`house${index}`} house={feature} data={data} roofType={roofType} roofOrientation={roofOrientation} />
         ))}
         <directionalLight position={[100, 200, 100]} intensity={1} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
         {/* <ambientLight intensity={0.3} /> */}

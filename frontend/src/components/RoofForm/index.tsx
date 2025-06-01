@@ -45,20 +45,22 @@ const RoofForm = () => {
     <Card title="Szczegółowa konfiguracja" full={true} innerPadding={false}>
       <div className="grid grid-cols-3">
         <div className="col-span-2">
-          <HomeScene />
+          <HomeScene roofType={roofConfiguratorState.roof_type} roofOrientation={roofConfiguratorState.roof_orientation} />
         </div>
         <div className="col-span-1 flex flex-col justify-between items-stretch">
           <div className="py-3">
             <div className="flex flex-col gap-4 px-4 py-2">
-              <ControlledInput onInput={(e) => updateConfiguration("roof_height", e.target.value)} label={"Wysokość dachu [m]"} value={roofConfiguratorState.roof_height} />
+              {/* <ControlledInput onInput={(e) => updateConfiguration("roof_height", e.target.value)} label={"Wysokość dachu [m]"} value={roofConfiguratorState.roof_height} />
 
               <ControlledInput onInput={(e) => updateConfiguration("building_height", e.target.value)} label={"Wysokość budynku [m]"} value={roofConfiguratorState.building_height} />
 
-              <ControlledInput onInput={(e) => updateConfiguration("roof_angle", e.target.value)} label={"Kąt dachu"} value={roofConfiguratorState.roof_angle} />
-
-              <Select value={roofConfiguratorState.roof_orientation} onChange={(value: string) => updateConfiguration("roof_orientation", value)} options={orientationOptions} />
+              <ControlledInput onInput={(e) => updateConfiguration("roof_angle", e.target.value)} label={"Kąt dachu"} value={roofConfiguratorState.roof_angle} /> */}
 
               <Select value={roofConfiguratorState.roof_type} onChange={(value: string) => updateConfiguration("roof_type", value)} options={roofOptions} />
+
+              {roofConfiguratorState.roof_type === "gable" && (
+                <Select value={roofConfiguratorState.roof_orientation} onChange={(value: string) => updateConfiguration("roof_orientation", value)} options={orientationOptions} />
+              )}
 
               <div className="mt-10 flex justify-end">
                 <button className="button-primary" onClick={() => setStep(step + 1)}>
