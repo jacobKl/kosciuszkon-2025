@@ -11,3 +11,4 @@ pandas
 joblib
 scikit-learn
 tinydb
+reportlab

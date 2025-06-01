@@ -2,6 +2,7 @@ import React, { type Dispatch, type SetStateAction } from "react";
 import Modal from "../Modal";
 import { useForm } from "react-hook-form";
 import Input from "../Input";
+import Checkbox from "../Checkbox";
 
 const EstimatorModal = ({ isModalOpen, setIsModalOpen, onModalSubmit }: { isModalOpen: boolean; setIsModalOpen: Dispatch<SetStateAction<boolean>>; onModalSubmit: any }) => {
   const {
@@ -51,6 +52,10 @@ const EstimatorModal = ({ isModalOpen, setIsModalOpen, onModalSubmit }: { isModa
           })}
           error={errors?.num_devices?.message}
         />
+
+        <Checkbox label="Wysoki sufit" register={register("highceil")} error={errors?.highceil?.message} />
+
+        <Checkbox label="Klimatyzacja" register={register("aircond")} error={errors?.aircond?.message} />
 
         <div className="flex justify-end">
           <input className="button-primary" type="submit" value="Estymuj" />

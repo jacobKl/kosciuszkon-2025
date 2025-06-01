@@ -8,6 +8,7 @@ from tinydb import TinyDB, Query
 from datetime import datetime
 
 from calculator.calculator import Calculator
+from calculator.pdf import generate_stats_pdf
 
 router = APIRouter(
     prefix="/calculator",
@@ -41,6 +42,10 @@ async def calculate(year: int, request: Request):
 
     result['id'] = db.insert(result)
 
+    generate_stats_pdf(str(result['id']) + ".pdf", result)
+
+    result['pdf_url'] = f"http://localhost:8080/storage/{result ['id']}.pdf"
+
     return result
 
 
@@ -53,7 +58,9 @@ async def estimate(request: Request):
         "TOTROOMS": [int(data.get("totrooms"))],
         "NHSLDMEM": [int(data.get("nhsldmem"))],
         "ATHOME": [int(data.get("athome"))],
-        "NUM_DEVICES": [int(data.get("num_devices"))]
+        "AIRCOND": [int(data.get("aircond"))],
+        "HIGHCEIL": [int(data.get("highceil"))],
+        "NUM_DEVICES": [int(data.get("num_devices"))],
     })
     predicted_kwh = rf_model.predict(new_data)
 

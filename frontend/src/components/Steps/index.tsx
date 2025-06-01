@@ -65,7 +65,6 @@ const Steps = () => {
           animate="animate"
           exit="exit"
           transition={{ duration: 0.3 }}
-          className="mb-6"
         >
           <StepContent />
         </motion.div>

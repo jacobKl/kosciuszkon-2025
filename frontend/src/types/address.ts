@@ -17,6 +17,11 @@ export type AddressFeature = {
     height: number;
     addr_street: string;
     addr_housenumber: string;
+    roof_3d_polygons: {
+      flat: { "1": number[][]; "2": number[][] };
+      gable: { "1": number[][]; "2": number[][] };
+      hip: { "1": number[][]; "2": number[][] };
+    };
   };
   geometry: {
     type: "Polygon";
