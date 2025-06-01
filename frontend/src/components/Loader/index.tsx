@@ -4,7 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 const Loader = () => {
   const [text, setText] = useState("");
   const [isSplitting, setIsSplitting] = useState(false);
-  const fullText = "pvbuilder";
+  const fullText = "GreenHouse";
   const controls = useAnimation();
 
   useEffect(() => {
