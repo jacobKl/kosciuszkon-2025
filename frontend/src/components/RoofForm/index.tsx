@@ -73,9 +73,6 @@ const RoofForm = () => {
           </div>
 
           <div className="mt-10 flex justify-between">
-            <button className="button-secondary" onClick={() => setStep(step - 1)}>
-              Cofnij
-            </button>
             <button className="button-primary" onClick={() => setStep(step + 1)}>
               Dalej
             </button>
