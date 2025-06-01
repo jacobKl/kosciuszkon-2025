@@ -48,13 +48,17 @@ async def calculate(year: int, request: Request):
 async def estimate(request: Request):
     data = await request.json()
 
+    print(rf_model.feature_names_in_)
     new_data = DataFrame({
         "NCOMBATH": [int(data.get("ncombath"))],
         "TOTROOMS": [int(data.get("totrooms"))],
         "NHSLDMEM": [int(data.get("nhsldmem"))],
         "ATHOME": [int(data.get("athome"))],
-        "NUM_DEVICES": [int(data.get("num_devices"))]
+        "AIRCOND": [int(data.get("aircond"))],
+        "HIGHCEIL": [int(data.get("highceil"))],
+        "NUM_DEVICES": [int(data.get("num_devices"))],
     })
+    print(new_data)
     predicted_kwh = rf_model.predict(new_data)
 
     return {"predicted_kwh": round(predicted_kwh[0], 2)}
