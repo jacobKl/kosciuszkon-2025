@@ -31,7 +31,7 @@ const HomeScene = () => {
         <CameraLookAtCenter />
         <OrbitControls />
         {data?.features.map((feature, index) => (
-          <House key={`house${index}`} home={feature} data={data} />
+          <House key={`house${index}`} house={feature} data={data} />
         ))}
         {/* Światło rzucające cień */}
         <directionalLight
