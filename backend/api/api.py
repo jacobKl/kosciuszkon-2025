@@ -44,6 +44,7 @@ async def house_address(address: Address) -> dict[str, str] | dict:
         output['properties']['address'] = str(address)
         output['properties']['garages_found'] = len(output['features']) - 1
         add_bbox_to_properties(output)
+        output['properties']['average_centroid'] = [0, 0]
         return output
     else:
         raise HTTPException(status_code=400, detail="No address provided")
