@@ -19,7 +19,10 @@ rf_model = joblib.load(file_path)
 
 @router.post("/calculate/{year}")
 async def calculate(year: int, request: Request):
-    data = await request.json()
+    try:
+        data = await request.json()
+    except Exception:
+        data = {}
 
     # Parse input data
     input = {k: v for k, v in data.items() if v != ""}
