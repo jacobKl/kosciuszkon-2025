@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { DetailedConfiguratorState, FormState } from '../context/AppContextProvider';
+import type { DetailedConfiguratorState } from '../context/AppContextProvider';
 
 const getResult = async (detailedConfiguratorState: DetailedConfiguratorState): Promise<any> => {
   const res = await fetch('http://localhost:8080/calculator/calculate/2040', {
