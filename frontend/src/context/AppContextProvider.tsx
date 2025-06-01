@@ -32,7 +32,7 @@ export type AppContextType = {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const AppContextProvider = ({ children }: { children: ReactNode }) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   const [formState, setFormState] = useState<FormState>({
     street: "",
     number: "",
