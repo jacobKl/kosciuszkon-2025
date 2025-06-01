@@ -62,8 +62,8 @@ def add_bbox_to_properties(feature_collection):
             "roof_3d_polygons"] = roof_3d_polygons
         feature_center = [feature_collection['properties']['average_centroid']
                           ['lon'], feature_collection['properties']['average_centroid']['lat']]
-        feature['geometry']['coordinates'] = scale_values(
-            feature['geometry']['coordinates'], feature_center)
+        feature['geometry']['coordinates'][0] = scale_values(
+            feature['geometry']['coordinates'][0], feature_center)
 
     return feature_collection
 
