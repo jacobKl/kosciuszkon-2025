@@ -5,16 +5,6 @@ from utils.solar_panel import calculate_panel_output
 
 
 def scale_values(values, center):
-    """
-    Przekształca współrzędne geograficzne (lon, lat) względem punktu odniesienia do metrów.
-
-    Args:
-        values (list): Lista [lon, lat] punktów.
-        center (list): Punkt odniesienia [lon, lat].
-
-    Returns:
-        list: Lista punktów [x, y] w metrach względem punktu odniesienia.
-    """
     R = 6371000
     center_lon, center_lat = map(math.radians, center)
 
@@ -47,18 +37,8 @@ def average_point(p1, p2, p3, p4):
 def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
     center = [center['lon'], center['lat']]
     house_roof_geographic_data = roof_data.copy()
-    print(house_roof_geographic_data)
     house_roof_local_data = scale_values(roof_data, center)
     roof_data = scale_values(roof_data, center)
-    """
-    Extract the roof top coordinates from the roof data.
-
-    Args:
-        roof_data (dict): Dictionary containing roof data with 'coordinates' key.
-
-    Returns:
-        list: List of roof top coordinates.
-    """
     if roof_type == 'flat':
         house_data = {
             "corners": {
