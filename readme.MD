@@ -17,8 +17,9 @@ The platform provides information on costs, potential savings, eligible subsidie
 
 - **Frontend:** [React.js](https://reactjs.org/), [Three.js](https://threejs.org/)
 - **Backend:** [FastAPI](https://fastapi.tiangolo.com/)
-- **Machine Learning:** [scikit-learn](https://scikit-learn.org/)
+- **Machine Learning:** [scikit-learn](https://scikit-learn.org/), trained on the [RECS](https://www.eia.gov/consumption/residential/) dataset
 - **Containerization:** [Docker](https://www.docker.com/), [Docker Compose](https://docs.docker.com/compose/)
+- **Maps:** [OpenStreetMap API](https://www.openstreetmap.org/) for interactive building visualization
 
 ## Project Structure
 
@@ -43,7 +44,7 @@ To run the application locally using Docker Compose:
    ```bash
    docker-compose up --build -d
    ```
-4. Access the application at [http://localhost:8080](http://localhost:8080) in your web browser.
+4. Access the application at [http://localhost:8080](http://localhost:8081) in your web browser.
 
 ## Future Development
 
