@@ -229,7 +229,7 @@ def generate_stats_pdf(filename: str, data: dict):
             </div>
         
             <div class="footer">
-              &copy; {data.get('footer', 'GreenHouse')}, {data.get('date', '')}
+              &copy; {data.get('footer', 'GreenHouse')}
             </div>
           </div>
         </body>
