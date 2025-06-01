@@ -50,20 +50,33 @@ def add_bbox_to_properties(feature_collection):
 
         coords = list(rotated_bbox.exterior.coords)[:-1]
         corners = [[x, y] for x, y in coords]
-        roof_3d_polygons = {'flat': get_roof_top_coordinates(
+        flat_data = get_roof_top_coordinates(
             corners, feature_collection['properties']['average_centroid'], feature['properties']['height'], roof_type='flat'),
-            'gable': get_roof_top_coordinates(
+        gable_data = get_roof_top_coordinates(
             corners, feature_collection['properties']['average_centroid'], feature['properties']['height'], roof_type='gable'),
-            'hip': get_roof_top_coordinates(
+        hip_data = get_roof_top_coordinates(
             corners, feature_collection['properties']['average_centroid'], feature['properties']['height'], roof_type='hip')
+        print(flat_data[0]['roof'])
+        roof_data = {
+            'roof': {
+                'flat': flat_data[0]['roof'],
+                'gable': gable_data[0]['roof'],
+                'hip': hip_data['roof']
+            },
+            'solar_panels': {
+                'flat': flat_data[0]['solar_panels'],
+                'gable': gable_data[0]['solar_panels'],
+                'hip': hip_data['solar_panels']
+            }
         }
         # feature.setdefault("properties", {})["bbox"] = corners
         feature.setdefault("properties", {})[
-            "roof_3d_polygons"] = roof_3d_polygons
+            "roof_3d_polygons"] = roof_data['roof']
         feature_center = [feature_collection['properties']['average_centroid']
                           ['lon'], feature_collection['properties']['average_centroid']['lat']]
         feature['geometry']['coordinates'][0] = scale_values(
             feature['geometry']['coordinates'][0], feature_center)
+        feature['properties']['solar_panels'] = roof_data['solar_panels']
 
     return feature_collection
 

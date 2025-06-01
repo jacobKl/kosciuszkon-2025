@@ -2,9 +2,19 @@ import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 
 const GrassPlane = () => {
-  const grassTexture = useLoader(THREE.TextureLoader, "/grass.jpg");
-  const grassNormal = useLoader(THREE.TextureLoader, "/grass_normal.jpg");
-  const grassDisplacement = useLoader(THREE.TextureLoader, "/grass_displacement.jpg");
+  const grassTexture = useLoader(
+    THREE.TextureLoader,
+    "/textures/grass/grass.jpg",
+  );
+  const grassNormal = useLoader(
+    THREE.TextureLoader,
+    "/textures/grass/grass_normal.jpg",
+  );
+  const grassDisplacement = useLoader(
+    THREE.TextureLoader,
+    "/textures/grass/grass_displacement.jpg",
+  );
+  const alphaMap = useLoader(THREE.TextureLoader, "/textures/grass/alpha.jpg");
 
   grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping;
   grassNormal.wrapS = grassNormal.wrapT = THREE.RepeatWrapping;
@@ -22,6 +32,8 @@ const GrassPlane = () => {
         normalMap={grassNormal}
         displacementMap={grassDisplacement}
         displacementScale={0.5}
+        alphaMap={alphaMap}
+        transparent
       />
     </mesh>
   );
