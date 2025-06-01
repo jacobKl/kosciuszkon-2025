@@ -12,7 +12,7 @@ const EstimatorModal = ({ isModalOpen, setIsModalOpen, onModalSubmit }: { isModa
 
   return (
     <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-      <h2 className="text-xl mb-4">Estymator zużycia energii</h2>
+      <h2 className="text-xl mb-6">Estymator zużycia energii</h2>
 
       <form onSubmit={handleSubmit(onModalSubmit)} className="flex flex-col gap-4">
         <Input
@@ -42,6 +42,7 @@ const EstimatorModal = ({ isModalOpen, setIsModalOpen, onModalSubmit }: { isModa
             required: "To pole jest wymagane",
           })}
           error={errors?.athome?.message}
+          helper="np. osoby starsze"
         />
         <Input
           label="Liczba urządzeń o dużym zużyciu energii"
