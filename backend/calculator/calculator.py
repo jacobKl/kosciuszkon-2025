@@ -3,6 +3,8 @@ from datetime import datetime
 
 import yaml
 
+from enums import endowment
+
 
 class Calculator:
     def __init__(self, input=None):
@@ -95,13 +97,7 @@ class Calculator:
 
             "statistics": [],
 
-            "endowments": [
-                {
-                    "name": "Mój prąd",
-                    "url": "https://mojprad.gov.pl/",
-                    "image": None
-                }
-            ]
+            "endowments": endowment.possible_endowments(self.hourly_production_kw)
         }
 
         while current_year + 1 <= year:
