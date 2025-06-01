@@ -1,90 +1,115 @@
+import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import type {
   AddressFeatureCollection,
   AddressFeature,
 } from "../../types/address";
-import { Pane } from "tweakpane";
-import { useMemo, useRef, useState, useEffect } from "react";
+
+const createShape = (coords: number[][]) => {
+  const s = new THREE.Shape();
+  coords.forEach(([x, y], i) => {
+    if (i === 0) s.moveTo(x, y);
+    else s.lineTo(x, y);
+  });
+  return s;
+};
 
 const House = ({
-  home,
+  house,
   data,
 }: {
-  home: AddressFeature;
+  house: AddressFeature;
   data: AddressFeatureCollection;
 }) => {
-  const [extrudeOptions, setExtrudeOptions] = useState({
-    steps: 2,
-    depth: home.properties.height,
+  const wallColorTexture = useLoader(
+    THREE.TextureLoader,
+    "/textures/bricks/color.jpg",
+  );
+  const wallAOTexture = useLoader(
+    THREE.TextureLoader,
+    "/textures/bricks/ambient.jpg",
+  );
+  const wallNormalTexture = useLoader(
+    THREE.TextureLoader,
+    "/textures/bricks/normal.jpg",
+  );
+  wallColorTexture.colorSpace = THREE.SRGBColorSpace;
+
+  wallColorTexture.wrapS = wallColorTexture.wrapT = THREE.RepeatWrapping;
+  wallAOTexture.wrapS = wallAOTexture.wrapT = THREE.RepeatWrapping;
+  wallNormalTexture.wrapS = wallNormalTexture.wrapT = THREE.RepeatWrapping;
+
+  const { coordinates } = house.geometry;
+  const houseShape = createShape(coordinates[0]);
+  const houseGeometry = new THREE.ExtrudeGeometry(houseShape, {
+    steps: 1,
+    depth: 10,
     bevelEnabled: false,
-    bevelSegments: 1,
-    bevelSize: home.properties.height / 2,
-    bevelThickness: home.properties.height / 2,
-    bevelOffset: 0,
+  });
+  houseGeometry.computeBoundingBox();
+  // @ts-ignore
+  const { min, max } = houseGeometry?.boundingBox;
+  const offset = new THREE.Vector2(0 - min.x, 0 - min.y);
+  const range = new THREE.Vector2(max.x - min.x, max.y - min.y);
+  const housePositions = houseGeometry.attributes.position;
+  const houseUvs = [];
+
+  // UV skalowane do rzeczywistych wymiarów ściany, aby tekstura cegieł była powtarzana proporcjonalnie
+  const uvScale = 0.25; // 1 cegła co 0.25 jednostki, dostosuj do rozmiaru tekstury
+  for (let i = 0; i < housePositions.count; i++) {
+    const v3 = new THREE.Vector3().fromBufferAttribute(housePositions, i);
+    houseUvs.push((v3.x + offset.x) * uvScale);
+    houseUvs.push((v3.y + offset.y) * uvScale);
+  }
+  houseGeometry.setAttribute(
+    "uv",
+    new THREE.BufferAttribute(new Float32Array(houseUvs), 2),
+  );
+  houseGeometry.setAttribute(
+    "uv2",
+    new THREE.BufferAttribute(new Float32Array(houseUvs), 2),
+  );
+  houseGeometry.attributes.uv.needsUpdate = true;
+  houseGeometry.attributes.uv2.needsUpdate = true;
+
+  const { hip } = house?.properties?.roof_3d_polygons;
+  if (!hip) return <></>;
+
+  const geometries = Object.values(hip).map((verticies) => {
+    const verts = verticies.flat().flat();
+    const geometry = new THREE.BufferGeometry();
+
+    const roofVerticies = new Float32Array(verts);
+
+    geometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(roofVerticies, 3),
+    );
+    return geometry;
   });
 
-  const paneRef = useRef<Pane>(null);
-  useEffect(() => {
-    if (!paneRef.current) {
-      paneRef.current = new Pane();
-      Object.keys(extrudeOptions).forEach((key) => {
-        paneRef
-          // @ts-ignore
-          .current!.addBinding(extrudeOptions, key, {
-            min: -20,
-            max: 20,
-            step: 1,
-          })
-          .on("change", (ev) => {
-            setExtrudeOptions((opts) => ({
-              ...opts,
-              [key]: ev.value,
-            }));
-          });
-      });
-    }
-    return () => {
-      paneRef.current?.dispose();
-    };
-    // eslint-disable-next-line
-  }, []);
-
-  const { coordinates } = home.geometry;
-
-  const [lon0, lat0] = coordinates[0][0];
-  const center = {
-    lat: data?.properties.average_centroid.lat || lat0,
-    lon: data?.properties.average_centroid.lon || lon0,
-  };
-  const scale = 50000;
-  const flatPolygon = coordinates[0].map(([lon, lat]) => [
-    (lon - center.lon) * scale,
-    (lat - center.lat) * scale,
-  ]);
-
-  const shape = useMemo(() => {
-    const s = new THREE.Shape();
-    flatPolygon.forEach(([x, y], i) => {
-      if (i === 0) s.moveTo(x, y);
-      else s.lineTo(x, y);
-    });
-    return s;
-  }, [flatPolygon]);
-
-  const houseGeometry = useMemo(
-    () => new THREE.ExtrudeGeometry(shape, extrudeOptions),
-    [shape, extrudeOptions],
-  );
-
   return (
-    <mesh
-      position={[0, 0.1, 0]}
-      geometry={houseGeometry}
-      rotation={[-Math.PI / 2, 0, 0]}
-      castShadow
-    >
-      <meshStandardMaterial color="orange" />
-    </mesh>
+    <>
+      <mesh
+        rotation={[Math.PI / 2, 0, 0]}
+        position={[0, house.properties.height, 0]}
+        geometry={houseGeometry}
+        castShadow
+      >
+        <meshStandardMaterial
+          color="orange"
+          side={THREE.DoubleSide}
+          map={wallColorTexture}
+          aoMap={wallAOTexture}
+          roughnessMap={wallAOTexture}
+          metalnessMap={wallAOTexture}
+          normalMap={wallNormalTexture}
+        />
+      </mesh>
+      <mesh position={[0, 0, 0]} geometry={geometries[0]} castShadow>
+        <meshStandardMaterial color="red" side={THREE.DoubleSide} />
+      </mesh>
+    </>
   );
 };
 

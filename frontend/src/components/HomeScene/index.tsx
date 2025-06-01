@@ -32,7 +32,7 @@ const HomeScene = () => {
           maxDistance={50}
         />
         {data?.features.map((feature, index) => (
-          <House key={`house${index}`} home={feature} data={data} />
+          <House key={`house${index}`} house={feature} data={data} />
         ))}
         <directionalLight position={[100, 200, 100]} intensity={1} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
         {/* <ambientLight intensity={0.3} /> */}
