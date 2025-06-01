@@ -5,6 +5,18 @@ import { useAppContext, type DetailedConfiguratorState } from "../../context/App
 import { useForm } from "react-hook-form";
 import EstimatorModal from "../EstimatorModal";
 import { useEstimateEnergy } from "../../mutations/useEstimateEnergy";
+import { useAddressQuery } from "../../queries/useAddressQuery";
+
+const getHourlyEnergy = (data: any) => {
+  const clearValue = data?.features[0]?.properties?.solar_panels?.flat?.solar_output?.clear;
+  if (!clearValue) return null;
+
+  const value = clearValue.estimated_production_per_hour * ;
+
+  if (value) {
+    return value / 1000;
+  }
+}
 
 const DetailedForm = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -26,6 +38,9 @@ const DetailedForm = () => {
     e.preventDefault();
     setIsModalOpen(true);
   };
+
+  const { formState } = useAppContext();
+  const { data } = useAddressQuery(formState);
 
   const mutation = useEstimateEnergy();
 
@@ -78,7 +93,7 @@ const DetailedForm = () => {
               </button>
             </div>
           </div>
-          <Input unit="kWh" name="hourly_production_kw" label="Produkcja na godzinę" register={register("hourly_production_kw")} error={errors?.hourly_production_kw?.message} />
+          <Input defaultValue={data?.features[0]?.properties?.solar_panels?.flat?.solar_output?.clear?.estimated_production_per_hour / 1000} unit="kWh" name="hourly_production_kw" label="Produkcja na godzinę" register={register("hourly_production_kw")} error={errors?.hourly_production_kw?.message} />
 
           <Input unit="%" defaultValue={22} name="consumption_level" label="Poziom konsumpcji" register={register("consumption_level")} error={errors?.consumption_level?.message} />
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-const ControlledInput = ({ label, value, onInput, name, helper, error }: { label: string; value: any; onInput: any; name: string; helper?: string; error: any; }) => {
+const ControlledInput = ({ label, value, onInput, name, helper, error }: { label: string; value: any; onInput: any; name: string; helper?: string; error?: any; }) => {
   return (
     <div className="flex flex-col relative w-full">
       <input value={value} onInput={onInput} type="text" id={name} className="peer h-12 w-full border-b-[1px] border-gray-200 text-gray-900 placeholder-transparent focus:outline-none focus:border-primary" placeholder="Your name" />

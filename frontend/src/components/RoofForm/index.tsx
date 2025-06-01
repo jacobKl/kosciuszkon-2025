@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, type SyntheticEvent } from "react";
 import Card from "../Card";
 import HomeScene from "../HomeScene";
 import ControlledInput from "../ControlledInput";
@@ -57,13 +57,13 @@ const RoofForm = () => {
         <div className="col-span-1 flex flex-col justify-between items-stretch">
           <div className="py-3">
             <div className="flex flex-col gap-4 px-4 py-2">
-              <ControlledInput onInput={(e) => updateConfiguration("roof_height", e.target.value)} label={"Wysokość dachu [m]"} value={roofConfiguratorState.roof_height} />
+              <ControlledInput name="roof_height" onInput={(e: SyntheticEvent) => updateConfiguration("roof_height", e.target.value)} label={"Wysokość dachu [m]"} value={roofConfiguratorState.roof_height} />
 
-              <ControlledInput onInput={(e) => updateConfiguration("building_height", e.target.value)} label={"Wysokość budynku [m]"} value={roofConfiguratorState.building_height} />
+              <ControlledInput name="building_height" onInput={(e: SyntheticEvent) => updateConfiguration("building_height", e.target.value)} label={"Wysokość budynku [m]"} value={roofConfiguratorState.building_height} />
 
-              <ControlledInput onInput={(e) => updateConfiguration("roof_angle", e.target.value)} label={"Kąt dachu"} value={roofConfiguratorState.roof_angle} />
+              <ControlledInput name="roof_angle" onInput={(e: SyntheticEvent) => updateConfiguration("roof_angle", e.target.value)} label={"Kąt dachu"} value={roofConfiguratorState.roof_angle} />
 
-              {/* <ControlledInput onInput={(e) => updateConfiguration("solar_amount", e.target.value)} label="Ilość panelu" /> */}
+              <ControlledInput name="solar_amount" onInput={(e: SyntheticEvent) => updateConfiguration("solar_amount", e.target.value)} label="Ilość paneli" value={roofConfiguratorState.solar_amount} />
 
               <Select value={roofConfiguratorState.roof_type} onChange={(value: string) => updateConfiguration("roof_type", value)} options={roofOptions} />
 
