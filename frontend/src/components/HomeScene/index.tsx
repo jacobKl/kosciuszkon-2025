@@ -30,7 +30,7 @@ const HomeScene = ({
   roofOrientation: boolean;
   solarAmount: number;
 }) => {
-  if (true) {
+  if (isError) {
     alert("Wystąpił błąd podczas pobierania danych z OSM.");
     window.location.reload();
 
