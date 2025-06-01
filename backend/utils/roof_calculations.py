@@ -54,6 +54,7 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
     Returns:
         list: List of roof top coordinates.
     """
+    print(roof_type)
     if roof_type == 'flat':
         house_data = {
             "corners": {
@@ -85,6 +86,7 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
                     ['most_eastern'], house_data['corners']['most_northern']]
             ]
         }
+        return roof_bounding_points
     elif roof_type == 'gable':
         print(roof_data)
         house_data = {
@@ -160,10 +162,19 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
                 "most_eastern": sorted(roof_data, key=lambda x: x[0], reverse=True)[0]
             }
         }
-        house_data['corners']['most_northern'].append(house_height)
-        house_data['corners']['most_southern'].append(house_height)
-        house_data['corners']['most_western'].append(house_height)
-        house_data['corners']['most_eastern'].append(house_height)
+        house_data['corners']['most_northern'].append(
+            house_data['corners']['most_northern'][1])
+        house_data['corners']['most_southern'].append(
+            house_data['corners']['most_southern'][1])
+        house_data['corners']['most_western'].append(
+            house_data['corners']['most_western'][1])
+        house_data['corners']['most_eastern'].append(
+            house_data['corners']['most_eastern'][1])
+
+        house_data['corners']['most_northern'][1] = house_height
+        house_data['corners']['most_southern'][1] = house_height
+        house_data['corners']['most_western'][1] = house_height
+        house_data['corners']['most_eastern'][1] = house_height
         roof_bounding_points = {
             1: [
                 [house_data['corners']['most_northern'], house_data['corners']

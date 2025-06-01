@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from shapely.geometry import Polygon, shape
 from shapely.ops import transform
 from geopy.distance import geodesic
-from utils.roof_calculations import get_roof_top_coordinates
+from utils.roof_calculations import get_roof_top_coordinates, scale_values
 
 
 class Address(BaseModel):
@@ -57,9 +57,13 @@ def add_bbox_to_properties(feature_collection):
             'hip': get_roof_top_coordinates(
             corners, feature_collection['properties']['average_centroid'], feature['properties']['height'], roof_type='hip')
         }
-        feature.setdefault("properties", {})["bbox"] = corners
+        # feature.setdefault("properties", {})["bbox"] = corners
         feature.setdefault("properties", {})[
             "roof_3d_polygons"] = roof_3d_polygons
+        feature_center = [feature_collection['properties']['average_centroid']
+                          ['lon'], feature_collection['properties']['average_centroid']['lat']]
+        feature['geometry']['coordinates'] = scale_values(
+            feature['geometry']['coordinates'], feature_center)
 
     return feature_collection
 
