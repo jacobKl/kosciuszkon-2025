@@ -4,11 +4,13 @@ import HomeScene from "../HomeScene";
 import ControlledInput from "../ControlledInput";
 import { useAppContext } from "../../context/AppContextProvider";
 import Select from "../Select";
+import { useAddressQuery } from "../../queries/useAddressQuery";
 
 type RoofConfigurator = {
   roof_height: number;
   building_height: number;
   roof_angle: number;
+  solar_amount: number;
   roof_orientation: boolean;
   roof_type: "flat" | "gable";
 };
@@ -31,6 +33,7 @@ const RoofForm = () => {
     roof_height: 3,
     building_height: 10,
     roof_angle: 30,
+    solar_amount: 1,
     roof_orientation: false,
     roof_type: "flat",
   });
@@ -42,11 +45,14 @@ const RoofForm = () => {
     });
   };
 
+  const { formState } = useAppContext();
+  const { data, isError, isLoading } = useAddressQuery(formState);
+
   return (
     <Card title="Szczegółowa konfiguracja" full={true} innerPadding={false}>
       <div className="grid grid-cols-3">
         <div className="col-span-2">
-          <HomeScene roofType={roofConfiguratorState.roof_type} roofOrientation={roofConfiguratorState.roof_orientation} />
+          <HomeScene data={data} isError={isError} isLoading={isLoading} solarAmount={roofConfiguratorState.solar_amount} roofType={roofConfiguratorState.roof_type} roofOrientation={roofConfiguratorState.roof_orientation} />
         </div>
         <div className="col-span-1 flex flex-col justify-between items-stretch">
           <div className="py-3">
@@ -56,6 +62,8 @@ const RoofForm = () => {
               <ControlledInput onInput={(e) => updateConfiguration("building_height", e.target.value)} label={"Wysokość budynku [m]"} value={roofConfiguratorState.building_height} />
 
               <ControlledInput onInput={(e) => updateConfiguration("roof_angle", e.target.value)} label={"Kąt dachu"} value={roofConfiguratorState.roof_angle} />
+
+              {/* <ControlledInput onInput={(e) => updateConfiguration("solar_amount", e.target.value)} label="Ilość panelu" /> */}
 
               <Select value={roofConfiguratorState.roof_type} onChange={(value: string) => updateConfiguration("roof_type", value)} options={roofOptions} />
 

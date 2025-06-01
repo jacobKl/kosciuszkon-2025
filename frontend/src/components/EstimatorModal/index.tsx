@@ -1,6 +1,7 @@
-import React, { type Dispatch, type SetStateAction } from "react";
-import Modal from "../Modal";
+import { type Dispatch, type SetStateAction } from "react";
 import { useForm } from "react-hook-form";
+
+import Modal from "../Modal";
 import Input from "../Input";
 import Checkbox from "../Checkbox";
 

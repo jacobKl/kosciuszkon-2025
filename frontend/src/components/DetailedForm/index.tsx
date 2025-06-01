@@ -1,4 +1,4 @@
-import React, { useState, type SyntheticEvent, useRef } from "react";
+import { useState, type SyntheticEvent, useRef } from "react";
 import Card from "../Card";
 import Input from "../Input";
 import { useAppContext, type DetailedConfiguratorState } from "../../context/AppContextProvider";

@@ -11,7 +11,7 @@ const createShape = (coords: number[][]) => {
   return s;
 };
 
-const House = ({ house, data, roofType, roofOrientation }: { house: AddressFeature; data: AddressFeatureCollection; roofType: string; roofOrientation: boolean; }) => {
+const House = ({ house, data, roofType, roofOrientation, solarAmount = 1 }: { house: AddressFeature; data: AddressFeatureCollection; roofType: string; roofOrientation: boolean; solarAmount: number; }) => {
   const { coordinates } = house.geometry;
   const houseShape = createShape(coordinates[0]);
 
@@ -54,8 +54,8 @@ const House = ({ house, data, roofType, roofOrientation }: { house: AddressFeatu
     roofMesh = (
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, house.properties.height + 0.3, 0]} geometry={flatRoofGeometry} castShadow>
         <meshStandardMaterial color="gray" side={THREE.DoubleSide} />
-
-        {house.properties?.solar_panels?.flat?.coordinates?.map(
+        
+        {house.properties?.solar_panels?.flat?.coordinates?.slice(0, solarAmount)?.map(
         (triangle: number[][][], index: number) => {
           const flatVerts = triangle.flat().flat(); // flatten to Float32Array
           const geometry = new THREE.BufferGeometry();

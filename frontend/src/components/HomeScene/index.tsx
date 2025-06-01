@@ -2,8 +2,6 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { useEffect } from "react";
 import { OrbitControls } from "@react-three/drei";
 
-import { useAddressQuery } from "../../queries/useAddressQuery";
-import { useAppContext } from "../../context/AppContextProvider";
 import House from "../House";
 import GrassPlane from "../GrassPanel";
 
@@ -15,11 +13,7 @@ function CameraLookAtCenter() {
   return null;
 }
 
-const HomeScene = ({ roofType, roofOrientation }: { roofType: string; roofOrientation: boolean }) => {
-  const { formState } = useAppContext();
-
-  const { data, isError, isLoading } = useAddressQuery(formState);
-
+const HomeScene = ({ data, isLoading, isError, roofType, roofOrientation, solarAmount }: { data: any; isLoading: boolean; isError: boolean; roofType: string; roofOrientation: boolean; solarAmount: number; }) => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;
 
@@ -29,10 +23,9 @@ const HomeScene = ({ roofType, roofOrientation }: { roofType: string; roofOrient
         <CameraLookAtCenter />
         <OrbitControls minDistance={10} maxDistance={50} />
         {data?.features.map((feature, index) => (
-          <House key={`house${index}`} house={feature} data={data} roofType={roofType} roofOrientation={roofOrientation} />
+          <House key={`house${index}`} solarAmount={solarAmount} house={feature} data={data} roofType={roofType} roofOrientation={roofOrientation} />
         ))}
         <directionalLight position={[100, 200, 100]} intensity={1} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-        {/* <ambientLight intensity={0.3} /> */}
         <directionalLight
           castShadow
           position={[100, 200, 100]}
