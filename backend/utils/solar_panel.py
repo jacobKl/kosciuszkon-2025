@@ -77,5 +77,9 @@ def calculate_panel_output(lat, lon, tilt, azimuth, area, efficiency, weather='c
         'dni': dni,
         'aoi': float(aoi),
         'incident_power': incident_power,
-        'power_output': power_output
+        'power_output': power_output,
+        'estimated_production_per_hour': power_output + calculate_panel_output(
+            lat, lon, tilt, azimuth, area, efficiency, weather, time.replace(
+                hour=time.hour + 1)
+        )['power_output'] / 2
     }

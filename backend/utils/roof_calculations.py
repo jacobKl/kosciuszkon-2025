@@ -69,13 +69,13 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
             {'corners': house_data['corners'], 'type': 'flat'})
         solar_panels_output = {
             'clear': calculate_panel_output(
-                center[1], center[0], 30, 180, solar_panels['solar_area'], 0.18, 'clear', None),
+                center[1], center[0], 30, 180, 1.65, 0.18, 'clear', None),
             'partly_cloudy': calculate_panel_output(
-                center[1], center[0], 30, 180, solar_panels['solar_area'], 0.18, 'partly_cloudy', None),
+                center[1], center[0], 30, 180, 1.65, 0.18, 'partly_cloudy', None),
             'cloudy': calculate_panel_output(
-                center[1], center[0], 30, 180, solar_panels['solar_area'], 0.18, 'cloudy', None),
+                center[1], center[0], 30, 180, 1.65, 0.18, 'cloudy', None),
             'rain': calculate_panel_output(
-                center[1], center[0], 30, 180, solar_panels['solar_area'], 0.18, 'rain', None)
+                center[1], center[0], 30, 180, 1.65, 0.18, 'rain', None)
         }
         house_data['corners']['most_northern'].append(
             house_data['corners']['most_northern'][1])
