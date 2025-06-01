@@ -45,7 +45,7 @@ class Calculator:
         return price
 
     def produced_energy_per_year(self):
-        return self.hourly_production_kw * 24 * 365
+        return self.hourly_production_kw * 1600
 
     def cost_without_installation(self, year):
         return self.calculate_yearly_buy_price(year) * self.energy_per_year

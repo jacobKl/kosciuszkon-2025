@@ -64,6 +64,9 @@ const DetailedForm = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Input
+            defaultValue={
+              parseInt(roofConfiguration.solar_amount) * 0.35 * 5000
+            }
             unit="PLN"
             name="panel_installation_cost"
             label="Koszt instalacji"
@@ -116,7 +119,7 @@ const DetailedForm = () => {
           <Input
             defaultValue={
               (data?.features[0]?.properties?.solar_panels?.flat?.solar_output
-                ?.clear?.estimated_production_per_hour /
+                ?.partly_cloudy?.estimated_production_per_hour /
                 1000) *
               parseInt(roofConfiguration.solar_amount)
             }
