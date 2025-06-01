@@ -37,22 +37,56 @@ function CameraLookAtCenter() {
   return null;
 }
 
-const HomeScene = ({ data, isLoading, isError, roofType, roofOrientation, solarAmount }: { data: any; isLoading: boolean; isError: boolean; roofType: string; roofOrientation: boolean; solarAmount: number; }) => {
-  if (isError) return <div>Error</div>;
+const HomeScene = ({
+  data,
+  isLoading,
+  isError,
+  roofType,
+  roofOrientation,
+  solarAmount,
+}: {
+  data: any;
+  isLoading: boolean;
+  isError: boolean;
+  roofType: string;
+  roofOrientation: boolean;
+  solarAmount: number;
+}) => {
+  if (true) {
+    alert("Wystąpił błąd podczas pobierania danych z OSM.");
+    window.location.reload();
+
+    return <div>Error</div>;
+  }
 
   return (
     <div className="w-full h-full relative">
-      <AnimatePresence>
-        {isLoading && <CanvasLoader />}
-      </AnimatePresence>
+      <AnimatePresence>{isLoading && <CanvasLoader />}</AnimatePresence>
       <div className="w-full h-full">
-        <Canvas className="w-full h-full" camera={{ position: [0, 40, 0] }} shadows>
+        <Canvas
+          className="w-full h-full"
+          camera={{ position: [0, 40, 0] }}
+          shadows
+        >
           <CameraLookAtCenter />
           <OrbitControls minDistance={10} maxDistance={50} />
           {data?.features.map((feature, index) => (
-            <House key={`house${index}`} solarAmount={solarAmount} house={feature} data={data} roofType={roofType} roofOrientation={roofOrientation} />
+            <House
+              key={`house${index}`}
+              solarAmount={solarAmount}
+              house={feature}
+              data={data}
+              roofType={roofType}
+              roofOrientation={roofOrientation}
+            />
           ))}
-          <directionalLight position={[100, 200, 100]} intensity={1} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+          <directionalLight
+            position={[100, 200, 100]}
+            intensity={1}
+            castShadow
+            shadow-mapSize-width={2048}
+            shadow-mapSize-height={2048}
+          />
           <directionalLight
             castShadow
             position={[100, 200, 100]}
