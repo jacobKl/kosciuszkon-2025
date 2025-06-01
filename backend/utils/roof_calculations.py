@@ -63,10 +63,19 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
                 "most_eastern": sorted(roof_data, key=lambda x: x[0], reverse=True)[0]
             }
         }
-        house_data['corners']['most_northern'].append(house_height)
-        house_data['corners']['most_southern'].append(house_height)
-        house_data['corners']['most_western'].append(house_height)
-        house_data['corners']['most_eastern'].append(house_height)
+        house_data['corners']['most_northern'].append(
+            house_data['corners']['most_northern'][1])
+        house_data['corners']['most_southern'].append(
+            house_data['corners']['most_southern'][1])
+        house_data['corners']['most_western'].append(
+            house_data['corners']['most_western'][1])
+        house_data['corners']['most_eastern'].append(
+            house_data['corners']['most_eastern'][1])
+
+        house_data['corners']['most_northern'][1] = house_height
+        house_data['corners']['most_southern'][1] = house_height
+        house_data['corners']['most_western'][1] = house_height
+        house_data['corners']['most_eastern'][1] = house_height
 
         roof_bounding_points = {
             1: [
@@ -87,15 +96,24 @@ def get_roof_top_coordinates(roof_data, center, house_height, roof_type='flat'):
             }
         }
         house_data['roof_edges'] = {
-            1: [[(house_data['corners']['most_northern'][0] + house_data['corners']['most_western'][0]) / 2, (house_data['corners']['most_northern'][1] + house_data['corners']['most_western'][1]) / 2, distance([(house_data['corners']['most_northern'][0] + house_data['corners']['most_western'][0]) / 2, (house_data['corners']['most_northern'][1] + house_data['corners']['most_western'][1]) / 2], [house_data['corners']['most_western'][0], house_data['corners']['most_western'][1]]) + house_height],
-                [(house_data['corners']['most_southern'][0] + house_data['corners']['most_eastern'][0]) / 2, (house_data['corners']['most_southern'][1] + house_data['corners']['most_eastern'][1]) / 2, distance([(house_data['corners']['most_southern'][0] + house_data['corners']['most_eastern'][0]) / 2, (house_data['corners']['most_southern'][1] + house_data['corners']['most_eastern'][1]) / 2], [house_data['corners']['most_eastern'][0], house_data['corners']['most_eastern'][1]]) + house_height]],
-            2: [[(house_data['corners']['most_northern'][0] + house_data['corners']['most_eastern'][0]) / 2, (house_data['corners']['most_northern'][1] + house_data['corners']['most_eastern'][1]) / 2, distance([(house_data['corners']['most_northern'][0] + house_data['corners']['most_eastern'][0]) / 2, (house_data['corners']['most_northern'][1] + house_data['corners']['most_eastern'][1]) / 2], [house_data['corners']['most_eastern'][0], house_data['corners']['most_eastern'][1]]) + house_height],
-                [(house_data['corners']['most_southern'][0] + house_data['corners']['most_western'][0]) / 2, (house_data['corners']['most_southern'][1] + house_data['corners']['most_western'][1]) / 2, distance([(house_data['corners']['most_southern'][0] + house_data['corners']['most_western'][0]) / 2, (house_data['corners']['most_southern'][1] + house_data['corners']['most_western'][1]) / 2], [house_data['corners']['most_western'][0], house_data['corners']['most_western'][1]]) + house_height]]
+            1: [[(house_data['corners']['most_northern'][0] + house_data['corners']['most_western'][0]) / 2, distance([(house_data['corners']['most_northern'][0] + house_data['corners']['most_western'][0]) / 2, (house_data['corners']['most_northern'][1] + house_data['corners']['most_western'][1]) / 2], [house_data['corners']['most_western'][0], house_data['corners']['most_western'][1]]) + house_height, (house_data['corners']['most_northern'][1] + house_data['corners']['most_western'][1]) / 2],
+                [(house_data['corners']['most_southern'][0] + house_data['corners']['most_eastern'][0]) / 2, distance([(house_data['corners']['most_southern'][0] + house_data['corners']['most_eastern'][0]) / 2, (house_data['corners']['most_southern'][1] + house_data['corners']['most_eastern'][1]) / 2], [house_data['corners']['most_eastern'][0], house_data['corners']['most_eastern'][1]]) + house_height, (house_data['corners']['most_southern'][1] + house_data['corners']['most_eastern'][1]) / 2]],
+            2: [[(house_data['corners']['most_northern'][0] + house_data['corners']['most_eastern'][0]) / 2, distance([(house_data['corners']['most_northern'][0] + house_data['corners']['most_eastern'][0]) / 2, (house_data['corners']['most_northern'][1] + house_data['corners']['most_eastern'][1]) / 2], [house_data['corners']['most_eastern'][0], house_data['corners']['most_eastern'][1]]) + house_height, (house_data['corners']['most_northern'][1] + house_data['corners']['most_eastern'][1]) / 2],
+                [(house_data['corners']['most_southern'][0] + house_data['corners']['most_western'][0]) / 2, distance([(house_data['corners']['most_southern'][0] + house_data['corners']['most_western'][0]) / 2, (house_data['corners']['most_southern'][1] + house_data['corners']['most_western'][1]) / 2], [house_data['corners']['most_western'][0], house_data['corners']['most_western'][1]]) + house_height, (house_data['corners']['most_southern'][1] + house_data['corners']['most_western'][1]) / 2]]
         }
-        house_data['corners']['most_northern'].append(house_height)
-        house_data['corners']['most_southern'].append(house_height)
-        house_data['corners']['most_western'].append(house_height)
-        house_data['corners']['most_eastern'].append(house_height)
+        house_data['corners']['most_northern'].append(
+            house_data['corners']['most_northern'][1])
+        house_data['corners']['most_southern'].append(
+            house_data['corners']['most_southern'][1])
+        house_data['corners']['most_western'].append(
+            house_data['corners']['most_western'][1])
+        house_data['corners']['most_eastern'].append(
+            house_data['corners']['most_eastern'][1])
+
+        house_data['corners']['most_northern'][1] = house_height
+        house_data['corners']['most_southern'][1] = house_height
+        house_data['corners']['most_western'][1] = house_height
+        house_data['corners']['most_eastern'][1] = house_height
         roof_bounding_points = {
             1: [
                 [house_data['corners']['most_northern'], house_data['corners']
