@@ -1,6 +1,8 @@
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
+
 from utils.osm import geocode_address, create_bbox, query_buildings, osm_to_geojson, check_address, filter_buildings, calculate_average_centroid, add_bbox_to_properties, find_main_and_n_nearest_without_housenumber, Address
 from utils.solar_panel import calculate_panel_output, SolarPanelData
 from api.calculator_api import router as calculator_router
@@ -18,6 +20,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+app.mount("/storage", StaticFiles(directory="storage"), name="storage")
 
 app.include_router(calculator_router)
 
