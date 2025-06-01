@@ -40,15 +40,15 @@ const CalculatorTable = ({ data }: Props) => {
           ["Zużycie energii", `${formatNumber(data.energy_consumption)} kWh`],
         ].map(([label, value]) => (
           <tr key={label} className="border-b border-primary last:border-b-0">
-            <td className="py-3 pr-4 text-gray-700 font-medium">{label}</td>
+            <td className="py-3 pr-4 text-gray-700 font-thin">{label}</td>
             <td className="py-3 text-right text-gray-900">
-              <b className="font-bold">{value}</b>
+              <b className="font-thin">{value}</b>
             </td>
           </tr>
         ))}
       </tbody>
     </table>
   );
-}
+};
 
 export default CalculatorTable;
