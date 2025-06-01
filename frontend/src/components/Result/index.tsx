@@ -20,7 +20,7 @@ const Result = () => {
     <Card title="Rezultat" full={true}>
       <div className="w-full flex flex-col gap-6">
         <div className="grid grid-cols-3 gap-4 mb-4">
-          <InfoCard animate={true} value={data.panel_installation_cost} unit=" PLN" text={"Koszt instalacji"} />
+          <InfoCard value={data.panel_installation_cost} unit=" PLN" text={"Koszt instalacji"} />
           <InfoCard value={data.energy_price_buy_kwh} unit=" PLN" text={"Koszt zakupu 1kWh"} />
           <InfoCard value={data.energy_price_sell_kwh} unit=" PLN" text={"Cena sprzedaży 1kWh"} />
         </div>
