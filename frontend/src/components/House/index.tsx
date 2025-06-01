@@ -12,17 +12,6 @@ const createShape = (coords: number[][]) => {
 };
 
 const House = ({ house, data, roofType, roofOrientation }: { house: AddressFeature; data: AddressFeatureCollection; roofType: string; roofOrientation: boolean; }) => {
-  // Load brick textures
-  const wallColorTexture = useLoader(THREE.TextureLoader, "/textures/bricks/color.jpg");
-  const wallAOTexture = useLoader(THREE.TextureLoader, "/textures/bricks/ambient.jpg");
-  const wallNormalTexture = useLoader(THREE.TextureLoader, "/textures/bricks/normal.jpg");
-
-  wallColorTexture.colorSpace = THREE.SRGBColorSpace;
-  wallColorTexture.wrapS = wallColorTexture.wrapT = THREE.RepeatWrapping;
-
-  wallAOTexture.wrapS = wallAOTexture.wrapT = THREE.RepeatWrapping;
-  wallNormalTexture.wrapS = wallNormalTexture.wrapT = THREE.RepeatWrapping;
-
   const { coordinates } = house.geometry;
   const houseShape = createShape(coordinates[0]);
 
@@ -63,12 +52,57 @@ const House = ({ house, data, roofType, roofOrientation }: { house: AddressFeatu
     flatRoofGeometry.computeVertexNormals();
 
     roofMesh = (
-      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, house.properties.height, 0]} geometry={flatRoofGeometry} castShadow>
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, house.properties.height + 0.3, 0]} geometry={flatRoofGeometry} castShadow>
+        <meshStandardMaterial color="gray" side={THREE.DoubleSide} />
+
+        {house.properties?.solar_panels?.flat?.coordinates?.map(
+        (triangle: number[][][], index: number) => {
+          const flatVerts = triangle.flat().flat(); // flatten to Float32Array
+          const geometry = new THREE.BufferGeometry();
+          geometry.setAttribute(
+            "position",
+            new THREE.BufferAttribute(new Float32Array(flatVerts), 3)
+          );
+          geometry.computeVertexNormals();
+
+          return (
+            <mesh
+              key={`solar-${index}`}
+              position={[0, 0.01, 0]}
+              rotation={[Math.PI / 2, 0, 0]}
+              geometry={geometry}
+              castShadow
+            >
+              <meshStandardMaterial color="#222" side={THREE.DoubleSide} />
+            </mesh>
+          );
+        }
+      )}
+      </mesh>
+    );
+  } else if (roofType === 'gable') {
+    const roofVertices = house?.properties?.roof_3d_polygons?.gable;
+
+    const geometries = Object.values(roofVertices).map((verticies) => {
+      const verts = verticies.flat().flat();
+      const geometry = new THREE.BufferGeometry();
+
+      geometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(new Float32Array(verts), 3)
+      );
+      geometry.computeVertexNormals();
+
+      return geometry;
+    });
+
+    roofMesh = (
+      <mesh position={[0, 0, 0]} geometry={geometries[roofOrientation]} castShadow>
         <meshStandardMaterial color="gray" side={THREE.DoubleSide} />
       </mesh>
     );
   } else {
-    const roofVertices = house?.properties?.roof_3d_polygons?.gable;
+    const roofVertices = house?.properties?.roof_3d_polygons?.hip;
 
     const geometries = Object.values(roofVertices).map((verticies) => {
       const verts = verticies.flat().flat();
@@ -94,13 +128,8 @@ const House = ({ house, data, roofType, roofOrientation }: { house: AddressFeatu
     <>
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, house.properties.height, 0]} geometry={houseGeometry} castShadow>
         <meshStandardMaterial
-          color="orange"
+          color="#FAF0CA"
           side={THREE.DoubleSide}
-          map={wallColorTexture}
-          aoMap={wallAOTexture}
-          roughnessMap={wallAOTexture}
-          metalnessMap={wallAOTexture}
-          normalMap={wallNormalTexture}
         />
       </mesh>
 

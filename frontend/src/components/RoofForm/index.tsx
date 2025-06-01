@@ -21,6 +21,7 @@ const orientationOptions = [
 const roofOptions = [
   { value: "flat", label: "Płaski" },
   { value: "gable", label: "Dwuspadowy" },
+  { value: "hip", label: "Czterospadowy"}
 ];
 
 const RoofForm = () => {
@@ -50,19 +51,19 @@ const RoofForm = () => {
         <div className="col-span-1 flex flex-col justify-between items-stretch">
           <div className="py-3">
             <div className="flex flex-col gap-4 px-4 py-2">
-              {/* <ControlledInput onInput={(e) => updateConfiguration("roof_height", e.target.value)} label={"Wysokość dachu [m]"} value={roofConfiguratorState.roof_height} />
+              <ControlledInput onInput={(e) => updateConfiguration("roof_height", e.target.value)} label={"Wysokość dachu [m]"} value={roofConfiguratorState.roof_height} />
 
               <ControlledInput onInput={(e) => updateConfiguration("building_height", e.target.value)} label={"Wysokość budynku [m]"} value={roofConfiguratorState.building_height} />
 
-              <ControlledInput onInput={(e) => updateConfiguration("roof_angle", e.target.value)} label={"Kąt dachu"} value={roofConfiguratorState.roof_angle} /> */}
+              <ControlledInput onInput={(e) => updateConfiguration("roof_angle", e.target.value)} label={"Kąt dachu"} value={roofConfiguratorState.roof_angle} />
 
               <Select value={roofConfiguratorState.roof_type} onChange={(value: string) => updateConfiguration("roof_type", value)} options={roofOptions} />
 
-              {roofConfiguratorState.roof_type === "gable" && (
+              {['gable', 'hip'].includes(roofConfiguratorState.roof_type) && (
                 <Select value={roofConfiguratorState.roof_orientation} onChange={(value: string) => updateConfiguration("roof_orientation", value)} options={orientationOptions} />
               )}
 
-              <div className="mt-10 flex justify-end">
+              <div className="mt-20 flex justify-end">
                 <button className="button-primary" onClick={() => setStep(step + 1)}>
                   Dalej
                 </button>

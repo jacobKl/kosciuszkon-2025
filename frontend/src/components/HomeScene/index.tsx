@@ -15,7 +15,7 @@ function CameraLookAtCenter() {
   return null;
 }
 
-const HomeScene = ({ roofType, roofOrientation } : { roofType: string; roofOrientation: boolean; }) => {
+const HomeScene = ({ roofType, roofOrientation }: { roofType: string; roofOrientation: boolean }) => {
   const { formState } = useAppContext();
 
   const { data, isError, isLoading } = useAddressQuery(formState);
@@ -27,10 +27,7 @@ const HomeScene = ({ roofType, roofOrientation } : { roofType: string; roofOrien
     <div className="w-full h-full">
       <Canvas className="w-full h-full" camera={{ position: [0, 40, 0] }} shadows>
         <CameraLookAtCenter />
-        <OrbitControls
-          minDistance={10}
-          maxDistance={50}
-        />
+        <OrbitControls minDistance={10} maxDistance={50} />
         {data?.features.map((feature, index) => (
           <House key={`house${index}`} house={feature} data={data} roofType={roofType} roofOrientation={roofOrientation} />
         ))}
